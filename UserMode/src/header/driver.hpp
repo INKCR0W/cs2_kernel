@@ -30,14 +30,11 @@ namespace driver {
 		SIZE_T return_size;
 	};
 
-	bool attach_to_process(HANDLE driver_handle, const DWORD pid) {
-		Request r;
-		r.process_id = reinterpret_cast<HANDLE>(pid);
-
-		return DeviceIoControl(driver_handle, codes::attach, &r, sizeof(r), &r, sizeof(r), nullptr, nullptr);
-	}
-
-
+	namespace error_codes {
+		static const int ACCESS = 0x00;
+		static const int GET_DRIVER_ERROR = 0x01;
+		static const int GET_PROCESSID_ERROR = 0x02;
+	}  // namespace error_codes
 
 
 	class driver {
@@ -48,11 +45,11 @@ namespace driver {
 		DWORD pid;
 		// 是否已经附加到目标进程
 		bool attached;
+		// 错误信息
+		int error_code;
 
 		// 通过进程名获取进程ID
 		DWORD get_process_id(const wchar_t* process_name);
-		// 获取指定进程里指定模块的起始地址
-		std::uintptr_t get_module_base(const DWORD pid, const wchar_t* module_name);
 
 	public:
 		driver();
@@ -75,17 +72,24 @@ namespace driver {
 		const DWORD _pid() const;
 		// 是否已经附加到目标进程
 		const bool isAttached() const;
+		// 获取最后一次错误的编码 （namespace driver::error_codes）
+		const int getError() const;
+
+		// 获取目标进程里指定模块的起始地址
+		const std::uintptr_t get_module_base(const wchar_t* module_name) const;
 
 		// 读内存，传入一个uintptr_t类型的指针
 		template <typename T>
 		T read_memory(const std::uintptr_t addr) {
 			T temp = {};
 
-			// 不初始化，提高运行效率
-			Request r;
-			r.target = reinterpret_cast<PVOID>(addr);
-			r.buffer = &temp;
-			r.size = sizeof(T);
+			Request r = {
+				nullptr,
+				reinterpret_cast<PVOID>(addr),
+				&temp,
+				sizeof(T),
+				0
+			};
 
 			DeviceIoControl(this->driver_handle, codes::read, &r, sizeof(r), &r, sizeof(r), nullptr, nullptr);
 
@@ -95,11 +99,13 @@ namespace driver {
 		// 写内存，传入一个uintptr_t类型的指针和一个标准类型的值
 		template <typename T>
 		void write_memory(const std::uintptr_t addr, const T& value) {
-			// 不初始化，提高运行效率
-			Request r;
-			r.target = reinterpret_cast<PVOID>(addr);
-			r.buffer = (PVOID)&value;
-			r.size = sizeof(T);
+			Request r = {
+				nullptr,
+				reinterpret_cast<PVOID>(addr),
+				(PVOID)& value,
+				sizeof(T),
+				0
+			};
 
 			DeviceIoControl(this->driver_handle, codes::write, &r, sizeof(r), &r, sizeof(r), nullptr, nullptr);
 		}

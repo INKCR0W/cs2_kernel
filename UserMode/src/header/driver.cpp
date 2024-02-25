@@ -23,54 +23,38 @@ namespace driver {
 
 		CloseHandle(snap_shot);
 
+#ifdef DEBUG
+		std::cout << "process_id got\n";
+#endif // DEBUG
+
 		return process_id;
 	}
 
-	std::uintptr_t driver::get_module_base(const DWORD pid, const wchar_t* module_name) {
-		std::uintptr_t module_base = 0;
-
-		const HANDLE snap_shot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, pid);
-		if (snap_shot == INVALID_HANDLE_VALUE)
-			return module_base;
-
-		MODULEENTRY32 entry = {};
-		entry.dwSize = sizeof(decltype(entry));
-
-		if (Module32First(snap_shot, &entry)) {
-			do {
-				if (wcsstr(module_name, entry.szModule) != nullptr) {
-					module_base = reinterpret_cast<std::uintptr_t>(entry.modBaseAddr);
-					break;
-				}
-			} while (Module32Next(snap_shot, &entry));
-		}
-
-		CloseHandle(snap_shot);
-
-		return module_base;
-	}
-
-	driver::driver() : driver_handle(nullptr), pid(0), attached(false) {}
+	driver::driver() : driver_handle(nullptr), pid(0), attached(false), error_code(0) {}
 
 	driver::driver(const wchar_t* driver_path) : driver(driver_path, static_cast<DWORD>(0)) {}
 
 	driver::driver(const wchar_t* driver_path, const wchar_t* process_name) : driver(driver_path, get_process_id(process_name)) {}
 
-	driver::driver(const wchar_t* driver_path, const DWORD pid) : pid(pid), attached(false) {
+	driver::driver(const wchar_t* driver_path, const DWORD pid) : pid(pid), attached(false), error_code(0) {
 		this->driver_handle = CreateFile(driver_path, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 
-		if (this->driver_handle == INVALID_HANDLE_VALUE)
+
+		if (this->driver_handle == INVALID_HANDLE_VALUE) {
+			this->error_code = error_codes::GET_DRIVER_ERROR;
 			return;
-
-		if (pid == 0)
-			return;
-
-		Request r;
-		r.process_id = reinterpret_cast<HANDLE>(pid);
-
-		if (DeviceIoControl(this->driver_handle, codes::attach, &r, sizeof(r), &r, sizeof(r), nullptr, nullptr)) {
-			this->attached = true;
 		}
+
+#ifdef DEBUG
+		std::cout << "driver_handle got\n";
+#endif // DEBUG
+
+		if (pid == 0) {
+			this->error_code = error_codes::GET_PROCESSID_ERROR;
+			return;
+		}
+
+		this->attach(pid);
 	}
 
 	driver::~driver() {
@@ -93,8 +77,13 @@ namespace driver {
 	}
 
 	bool driver::attach(const DWORD pid) {
-		Request r;
-		r.process_id = reinterpret_cast<HANDLE>(pid);
+		Request r = {
+			reinterpret_cast<HANDLE>(pid),
+			nullptr,
+			nullptr,
+			0,
+			0
+		};
 
 		this->attached = DeviceIoControl(driver_handle, codes::attach, &r, sizeof(r), &r, sizeof(r), nullptr, nullptr);
 
@@ -111,5 +100,37 @@ namespace driver {
 
 	const bool driver::isAttached() const {
 		return this->attached;
+	}
+
+	const int driver::getError() const {
+		return this->error_code;
+	}
+
+
+	const std::uintptr_t driver::get_module_base(const wchar_t* module_name) const {
+		std::uintptr_t module_base = 0;
+
+		if (this->pid == 0)
+			return module_base;
+
+		const HANDLE snap_shot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, this->pid);
+		if (snap_shot == INVALID_HANDLE_VALUE)
+			return module_base;
+
+		MODULEENTRY32 entry = {};
+		entry.dwSize = sizeof(decltype(entry));
+
+		if (Module32First(snap_shot, &entry)) {
+			do {
+				if (wcsstr(module_name, entry.szModule) != nullptr) {
+					module_base = reinterpret_cast<std::uintptr_t>(entry.modBaseAddr);
+					break;
+				}
+			} while (Module32Next(snap_shot, &entry));
+		}
+
+		CloseHandle(snap_shot);
+
+		return module_base;
 	}
 }  // namespace driver
