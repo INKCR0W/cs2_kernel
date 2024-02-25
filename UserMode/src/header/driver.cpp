@@ -85,7 +85,7 @@ namespace driver {
 			0
 		};
 
-		this->attached = DeviceIoControl(driver_handle, codes::attach, &r, sizeof(r), &r, sizeof(r), nullptr, nullptr);
+		this->attached = DeviceIoControl(this->driver_handle, codes::attach, &r, sizeof(r), &r, sizeof(r), nullptr, nullptr);
 
 		return this->attached;
 	}
