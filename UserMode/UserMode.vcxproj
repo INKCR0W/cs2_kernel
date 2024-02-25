@@ -141,11 +141,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\header\driver.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\client.dll.hpp" />
-    <ClInclude Include="src\offsets.hpp" />
+    <ClInclude Include="src\header\client.dll.hpp" />
+    <ClInclude Include="src\header\driver.hpp" />
+    <ClInclude Include="src\header\offsets.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -18,12 +18,18 @@
     <ClCompile Include="src\main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\header\driver.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\client.dll.hpp">
+    <ClInclude Include="src\header\client.dll.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\offsets.hpp">
+    <ClInclude Include="src\header\offsets.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\header\driver.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
