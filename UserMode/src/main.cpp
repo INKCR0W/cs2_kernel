@@ -16,15 +16,15 @@ static void print_error_info(const int error_code) {
 		break;
 
 	case driver::error_codes::GET_DRIVER_ERROR:
-		std::cout << "Failed to create driver handler: " << error << "\n";
+		std::cout << "[-] Failed to create driver handler: " << error << "\n";
 		break;
 
 	case driver::error_codes::GET_PROCESSID_ERROR:
-		std::cout << "Failed to find cs2 process: " << error << "\n";
+		std::cout << "[-] Failed to find cs2 process: " << error << "\n";
 		break;
 
 	default:
-		std::cout << "Unknown error: " << error << "\n";
+		std::cout << "[-] Unknown error: " << error << "\n";
 		break;
 	}
 }
@@ -41,11 +41,11 @@ int main() {
 		return 1;
 	}
 
-	std::cout << "Attachment successful.\n";
+	std::cout << "[+] Attachment successful.\n";
 
 	if (const std::uintptr_t client = myDriver.get_module_base(L"client.dll"); client != 0) {
-		std::cout << "Client.dll found, address : 0x" << std::hex << std::uppercase << client << "\n";
-		std::cout << "Press END to stop this process.\n";
+		std::cout << "[+] Client.dll found, address : 0x" << std::hex << std::uppercase << client << "\n";
+		std::cout << "[+] Press END to stop this process.\n";
 
 		while (true) {
 			Sleep(1);
@@ -76,10 +76,10 @@ int main() {
 		}
 	}
 	else {
-		std::cout << "Failed to find client.dll " << GetLastError() << "\n";
+		std::cout << "[-] Failed to find client.dll " << GetLastError() << "\n";
 	}
 
-	std::cout << "Process stopped. Press any key to close this window.\n";
+	std::cout << "[*] Process stopped. Press any key to close this window.\n";
 	std::cin.get();
 	return 0;
 }
