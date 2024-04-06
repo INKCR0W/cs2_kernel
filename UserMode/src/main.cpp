@@ -26,6 +26,7 @@
 #include "header/client.dll.hpp"
 #include "header/offsets.hpp"
 #include "header/driver.hpp"
+#include "header/buttons.hpp"
 
 
 static void print_error_info(const int error_code) {
@@ -73,26 +74,26 @@ int main() {
 			if (GetAsyncKeyState(VK_END))
 				break;
 
-			const auto local_player_pawn = myDriver.read_memory<std::uintptr_t>(client + client_dll::dwLocalPlayerPawn);
+			const auto local_player_pawn = myDriver.read_memory<std::uintptr_t>(client + cs2_dumper::offsets::client_dll::dwLocalPlayerPawn);
 
 			if (local_player_pawn == 0)
 				continue;
 
-			const auto flags = myDriver.read_memory<std::uint32_t>(local_player_pawn + C_BaseEntity::m_fFlags);
+			const auto flags = myDriver.read_memory<std::uint32_t>(local_player_pawn + cs2_dumper::schemas::client_dll::C_BaseEntity::m_fFlags);
 
 			const bool in_air = flags & (1 << 0);
 			const bool space_pressed = GetAsyncKeyState(VK_SPACE);
-			const auto force_jump = myDriver.read_memory<DWORD>(client + client_dll::dwForceJump);
+			const auto force_jump = myDriver.read_memory<DWORD>(client + cs2_dumper::buttons::jump);
 
 			if (space_pressed && in_air) {
 				Sleep(5);
-				myDriver.write_memory(client + client_dll::dwForceJump, 65537);
+				myDriver.write_memory(client + cs2_dumper::buttons::jump, 65537);
 			}
 			else if (space_pressed && !in_air) {
-				myDriver.write_memory(client + client_dll::dwForceJump, 256);
+				myDriver.write_memory(client + cs2_dumper::buttons::jump, 256);
 			}
 			else if (!space_pressed && force_jump == 65537) {
-				myDriver.write_memory(client + client_dll::dwForceJump, 256);
+				myDriver.write_memory(client + cs2_dumper::buttons::jump, 256);
 			}
 		}
 	}

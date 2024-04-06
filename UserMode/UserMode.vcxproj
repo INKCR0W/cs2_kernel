@@ -145,6 +145,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\header\buttons.hpp" />
     <ClInclude Include="src\header\client.dll.hpp" />
     <ClInclude Include="src\header\driver.hpp" />
     <ClInclude Include="src\header\offsets.hpp" />

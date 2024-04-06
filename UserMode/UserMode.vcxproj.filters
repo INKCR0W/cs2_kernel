@@ -32,5 +32,8 @@
     <ClInclude Include="src\header\driver.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\header\buttons.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
