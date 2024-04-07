@@ -149,6 +149,7 @@
     <ClInclude Include="src\header\client.dll.hpp" />
     <ClInclude Include="src\header\driver.hpp" />
     <ClInclude Include="src\header\offsets.hpp" />
+    <ClInclude Include="src\header\structs.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -109,5 +109,18 @@ namespace driver {
 
 			DeviceIoControl(this->driver_handle, codes::write, &r, sizeof(r), &r, sizeof(r), nullptr, nullptr);
 		}
+
+		template <typename T>
+		void read_memory_size(const std::uintptr_t addr, const T* value, size_t size) {
+			Request r = {
+				nullptr,
+				reinterpret_cast<PVOID>(addr),
+				(PVOID) value,
+				size,
+				0
+			};
+
+			DeviceIoControl(this->driver_handle, codes::read, &r, sizeof(r), &r, sizeof(r), nullptr, nullptr);
+		}
 	};
 }  // namespace driver
