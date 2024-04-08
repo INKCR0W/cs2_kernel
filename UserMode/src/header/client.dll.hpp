@@ -1,5 +1,5 @@
 // Generated using https://github.com/a2x/cs2-dumper
-// 2024-04-07 05:30:39.851724900 UTC
+// 2024-04-08 05:29:25.250783600 UTC
 
 #pragma once
 
@@ -1518,8 +1518,8 @@ namespace cs2_dumper {
             namespace C_TextureBasedAnimatable {
                 constexpr std::ptrdiff_t m_bLoop = 0xCD0; // bool
                 constexpr std::ptrdiff_t m_flFPS = 0xCD4; // float32
-                constexpr std::ptrdiff_t m_hPositionKeys = 0xCD8; // 
-                constexpr std::ptrdiff_t m_hRotationKeys = 0xCE0; // 
+                constexpr std::ptrdiff_t m_hPositionKeys = 0xCD8; // CStrongHandle<InfoForResourceTypeCTextureBase>
+                constexpr std::ptrdiff_t m_hRotationKeys = 0xCE0; // CStrongHandle<InfoForResourceTypeCTextureBase>
                 constexpr std::ptrdiff_t m_vAnimationBoundsMin = 0xCE8; // 
                 constexpr std::ptrdiff_t m_vAnimationBoundsMax = 0xCF4; // 
                 constexpr std::ptrdiff_t m_flStartTime = 0xD00; // float32
@@ -1702,10 +1702,10 @@ namespace cs2_dumper {
             // NetworkVarNames: m_nLightProbeAtlasZ (int)
             // NetworkVarNames: m_bEnabled (bool)
             namespace C_EnvLightProbeVolume {
-                constexpr std::ptrdiff_t m_hLightProbeTexture = 0x1528; // 
-                constexpr std::ptrdiff_t m_hLightProbeDirectLightIndicesTexture = 0x1530; // 
-                constexpr std::ptrdiff_t m_hLightProbeDirectLightScalarsTexture = 0x1538; // 
-                constexpr std::ptrdiff_t m_hLightProbeDirectLightShadowsTexture = 0x1540; // 
+                constexpr std::ptrdiff_t m_hLightProbeTexture = 0x1528; // CStrongHandle<InfoForResourceTypeCTextureBase>
+                constexpr std::ptrdiff_t m_hLightProbeDirectLightIndicesTexture = 0x1530; // CStrongHandle<InfoForResourceTypeCTextureBase>
+                constexpr std::ptrdiff_t m_hLightProbeDirectLightScalarsTexture = 0x1538; // CStrongHandle<InfoForResourceTypeCTextureBase>
+                constexpr std::ptrdiff_t m_hLightProbeDirectLightShadowsTexture = 0x1540; // CStrongHandle<InfoForResourceTypeCTextureBase>
                 constexpr std::ptrdiff_t m_vBoxMins = 0x1548; // 
                 constexpr std::ptrdiff_t m_vBoxMaxs = 0x1554; // 
                 constexpr std::ptrdiff_t m_bMoveable = 0x1560; // bool
@@ -2338,8 +2338,8 @@ namespace cs2_dumper {
                 constexpr std::ptrdiff_t m_CommandContext = 0x560; // C_CommandContext
                 constexpr std::ptrdiff_t m_nInButtonsWhichAreToggles = 0x5F8; // uint64
                 constexpr std::ptrdiff_t m_nTickBase = 0x600; // uint32
-                constexpr std::ptrdiff_t m_hPawn = 0x604; // CHandle<C_BasePlayerPawn>
-                constexpr std::ptrdiff_t m_hPredictedPawn = 0x608; // CHandle<C_BasePlayerPawn>
+                constexpr std::ptrdiff_t m_hPawn = 0x604; // 
+                constexpr std::ptrdiff_t m_hPredictedPawn = 0x608; // 
                 constexpr std::ptrdiff_t m_nSplitScreenSlot = 0x60C; // CSplitScreenSlot
                 constexpr std::ptrdiff_t m_hSplitOwner = 0x610; // CHandle<CBasePlayerController>
                 constexpr std::ptrdiff_t m_hSplitScreenPlayers = 0x618; // CUtlVector<CHandle<CBasePlayerController>>
@@ -2863,7 +2863,7 @@ namespace cs2_dumper {
             // NetworkVarNames: m_bStartDisabled (bool)
             // NetworkVarNames: m_bIsEnabled (bool)
             namespace C_GradientFog {
-                constexpr std::ptrdiff_t m_hGradientFogTexture = 0x550; // 
+                constexpr std::ptrdiff_t m_hGradientFogTexture = 0x550; // CStrongHandle<InfoForResourceTypeCTextureBase>
                 constexpr std::ptrdiff_t m_flFogStartDistance = 0x558; // float32
                 constexpr std::ptrdiff_t m_flFogEndDistance = 0x55C; // float32
                 constexpr std::ptrdiff_t m_bHeightFogEnabled = 0x560; // bool
@@ -3034,12 +3034,12 @@ namespace cs2_dumper {
             namespace C_EnvCombinedLightProbeVolume {
                 constexpr std::ptrdiff_t m_Color = 0x15A8; // Color
                 constexpr std::ptrdiff_t m_flBrightness = 0x15AC; // float32
-                constexpr std::ptrdiff_t m_hCubemapTexture = 0x15B0; // 
+                constexpr std::ptrdiff_t m_hCubemapTexture = 0x15B0; // CStrongHandle<InfoForResourceTypeCTextureBase>
                 constexpr std::ptrdiff_t m_bCustomCubemapTexture = 0x15B8; // bool
-                constexpr std::ptrdiff_t m_hLightProbeTexture = 0x15C0; // 
-                constexpr std::ptrdiff_t m_hLightProbeDirectLightIndicesTexture = 0x15C8; // 
-                constexpr std::ptrdiff_t m_hLightProbeDirectLightScalarsTexture = 0x15D0; // 
-                constexpr std::ptrdiff_t m_hLightProbeDirectLightShadowsTexture = 0x15D8; // 
+                constexpr std::ptrdiff_t m_hLightProbeTexture = 0x15C0; // CStrongHandle<InfoForResourceTypeCTextureBase>
+                constexpr std::ptrdiff_t m_hLightProbeDirectLightIndicesTexture = 0x15C8; // CStrongHandle<InfoForResourceTypeCTextureBase>
+                constexpr std::ptrdiff_t m_hLightProbeDirectLightScalarsTexture = 0x15D0; // CStrongHandle<InfoForResourceTypeCTextureBase>
+                constexpr std::ptrdiff_t m_hLightProbeDirectLightShadowsTexture = 0x15D8; // CStrongHandle<InfoForResourceTypeCTextureBase>
                 constexpr std::ptrdiff_t m_vBoxMins = 0x15E0; // 
                 constexpr std::ptrdiff_t m_vBoxMaxs = 0x15EC; // 
                 constexpr std::ptrdiff_t m_bMoveable = 0x15F8; // bool
@@ -3191,7 +3191,7 @@ namespace cs2_dumper {
                 constexpr std::ptrdiff_t m_LightStyleEvents = 0xD28; // C_NetworkUtlVectorBase<CUtlString>
                 constexpr std::ptrdiff_t m_LightStyleTargets = 0xD40; // C_NetworkUtlVectorBase<CHandle<C_BaseModelEntity>>
                 constexpr std::ptrdiff_t m_StyleEvent = 0xD58; // CEntityIOOutput[4]
-                constexpr std::ptrdiff_t m_hLightCookie = 0xDF8; // 
+                constexpr std::ptrdiff_t m_hLightCookie = 0xDF8; // CStrongHandle<InfoForResourceTypeCTextureBase>
                 constexpr std::ptrdiff_t m_flShape = 0xE00; // float32
                 constexpr std::ptrdiff_t m_flSoftX = 0xE04; // float32
                 constexpr std::ptrdiff_t m_flSoftY = 0xE08; // float32
@@ -3722,7 +3722,7 @@ namespace cs2_dumper {
                 constexpr std::ptrdiff_t m_flAttenuation2 = 0xAC; // float32
                 constexpr std::ptrdiff_t m_flTheta = 0xB0; // float32
                 constexpr std::ptrdiff_t m_flPhi = 0xB4; // float32
-                constexpr std::ptrdiff_t m_hLightCookie = 0xB8; // 
+                constexpr std::ptrdiff_t m_hLightCookie = 0xB8; // CStrongHandle<InfoForResourceTypeCTextureBase>
                 constexpr std::ptrdiff_t m_nCascades = 0xC0; // int32
                 constexpr std::ptrdiff_t m_nCastShadows = 0xC4; // int32
                 constexpr std::ptrdiff_t m_nShadowWidth = 0xC8; // int32
@@ -3971,7 +3971,7 @@ namespace cs2_dumper {
                 constexpr std::ptrdiff_t m_flRadiusScale = 0x1284; // float32
                 constexpr std::ptrdiff_t m_flSelfIllumScale = 0x1288; // float32
                 constexpr std::ptrdiff_t m_ColorTint = 0x128C; // Color
-                constexpr std::ptrdiff_t m_hTextureOverride = 0x1290; // 
+                constexpr std::ptrdiff_t m_hTextureOverride = 0x1290; // CStrongHandle<InfoForResourceTypeCTextureBase>
             }
             // Parent: C_CSGO_TeamPreviewCharacterPosition
             // Fields count: 0
@@ -4250,8 +4250,8 @@ namespace cs2_dumper {
             // NetworkVarNames: m_iAmmo (uint16)
             namespace CPlayer_WeaponServices {
                 constexpr std::ptrdiff_t m_hMyWeapons = 0x40; // C_NetworkUtlVectorBase<CHandle<C_BasePlayerWeapon>>
-                constexpr std::ptrdiff_t m_hActiveWeapon = 0x58; // 
-                constexpr std::ptrdiff_t m_hLastWeapon = 0x5C; // 
+                constexpr std::ptrdiff_t m_hActiveWeapon = 0x58; // CHandle<C_BasePlayerWeapon>
+                constexpr std::ptrdiff_t m_hLastWeapon = 0x5C; // CHandle<C_BasePlayerWeapon>
                 constexpr std::ptrdiff_t m_iAmmo = 0x60; // uint16[32]
             }
             // Parent: None
@@ -4380,7 +4380,7 @@ namespace cs2_dumper {
                 constexpr std::ptrdiff_t m_bStartDisabled = 0x5B8; // bool
                 constexpr std::ptrdiff_t m_bEnableIndirect = 0x5B9; // bool
                 constexpr std::ptrdiff_t m_bIsMaster = 0x5BA; // bool
-                constexpr std::ptrdiff_t m_hFogIndirectTexture = 0x5C0; // 
+                constexpr std::ptrdiff_t m_hFogIndirectTexture = 0x5C0; // CStrongHandle<InfoForResourceTypeCTextureBase>
                 constexpr std::ptrdiff_t m_nForceRefreshCount = 0x5C8; // int32
                 constexpr std::ptrdiff_t m_bFirstTime = 0x5CC; // bool
             }
@@ -4531,7 +4531,7 @@ namespace cs2_dumper {
             // NetworkVarNames: m_weaponPurchasesThisMatch (WeaponPurchaseTracker_t)
             // NetworkVarNames: m_weaponPurchasesThisRound (WeaponPurchaseTracker_t)
             namespace CCSPlayer_ActionTrackingServices {
-                constexpr std::ptrdiff_t m_hLastWeaponBeforeC4AutoSwitch = 0x40; // 
+                constexpr std::ptrdiff_t m_hLastWeaponBeforeC4AutoSwitch = 0x40; // CHandle<C_BasePlayerWeapon>
                 constexpr std::ptrdiff_t m_bIsRescuing = 0x44; // bool
                 constexpr std::ptrdiff_t m_weaponPurchasesThisMatch = 0x48; // WeaponPurchaseTracker_t
                 constexpr std::ptrdiff_t m_weaponPurchasesThisRound = 0xA0; // WeaponPurchaseTracker_t
@@ -4749,7 +4749,7 @@ namespace cs2_dumper {
             // NetworkVarNames: m_bCopyDiffuseFromDefaultCubemap (bool)
             // NetworkVarNames: m_bEnabled (bool)
             namespace C_EnvCubemap {
-                constexpr std::ptrdiff_t m_hCubemapTexture = 0x5D0; // 
+                constexpr std::ptrdiff_t m_hCubemapTexture = 0x5D0; // CStrongHandle<InfoForResourceTypeCTextureBase>
                 constexpr std::ptrdiff_t m_bCustomCubemapTexture = 0x5D8; // bool
                 constexpr std::ptrdiff_t m_flInfluenceRadius = 0x5DC; // float32
                 constexpr std::ptrdiff_t m_vBoxProjectMins = 0x5E0; // 
@@ -4954,7 +4954,7 @@ namespace cs2_dumper {
                 constexpr std::ptrdiff_t m_nCubemapSourceType = 0x57C; // int32
                 constexpr std::ptrdiff_t m_hSkyMaterial = 0x580; // CStrongHandle<InfoForResourceTypeIMaterial2>
                 constexpr std::ptrdiff_t m_iszSkyEntity = 0x588; // CUtlSymbolLarge
-                constexpr std::ptrdiff_t m_hFogCubemapTexture = 0x590; // 
+                constexpr std::ptrdiff_t m_hFogCubemapTexture = 0x590; // CStrongHandle<InfoForResourceTypeCTextureBase>
                 constexpr std::ptrdiff_t m_bHasHeightFogEnd = 0x598; // bool
                 constexpr std::ptrdiff_t m_bFirstTime = 0x599; // bool
             }
@@ -5735,7 +5735,7 @@ namespace cs2_dumper {
                 constexpr std::ptrdiff_t m_explosionCustomEffect = 0xFF8; // CUtlSymbolLarge
                 constexpr std::ptrdiff_t m_explosionCustomSound = 0x1000; // CUtlSymbolLarge
                 constexpr std::ptrdiff_t m_explosionModifier = 0x1008; // CUtlSymbolLarge
-                constexpr std::ptrdiff_t m_hPhysicsAttacker = 0x1010; // CHandle<C_BasePlayerPawn>
+                constexpr std::ptrdiff_t m_hPhysicsAttacker = 0x1010; // 
                 constexpr std::ptrdiff_t m_flLastPhysicsInfluenceTime = 0x1014; // GameTime_t
                 constexpr std::ptrdiff_t m_flDefaultFadeScale = 0x1018; // float32
                 constexpr std::ptrdiff_t m_hLastAttacker = 0x101C; // CHandle<C_BaseEntity>
@@ -6307,7 +6307,7 @@ namespace cs2_dumper {
                 constexpr std::ptrdiff_t m_nViewModelIndex = 0xEEC; // uint32
                 constexpr std::ptrdiff_t m_nAnimationParity = 0xEF0; // uint32
                 constexpr std::ptrdiff_t m_flAnimationStartTime = 0xEF4; // float32
-                constexpr std::ptrdiff_t m_hWeapon = 0xEF8; // 
+                constexpr std::ptrdiff_t m_hWeapon = 0xEF8; // CHandle<C_BasePlayerWeapon>
                 constexpr std::ptrdiff_t m_sVMName = 0xF00; // CUtlSymbolLarge
                 constexpr std::ptrdiff_t m_sAnimationPrefix = 0xF08; // CUtlSymbolLarge
                 constexpr std::ptrdiff_t m_hWeaponModel = 0xF10; // CHandle<C_ViewmodelWeapon>

@@ -103,3 +103,9 @@ struct BoneJointData
 	Vec3 Pos;
 	char pad[0x14];
 };
+
+struct C_UTL_VECTOR
+{
+	DWORD_PTR count = 0;
+	DWORD_PTR data = 0;
+};
