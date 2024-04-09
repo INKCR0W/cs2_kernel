@@ -26,15 +26,13 @@
 #include <thread>
 #include <cmath>
 
-#include "header/client.dll.hpp"
 #include "header/offsets.hpp"
 #include "header/driver.hpp"
-#include "header/buttons.hpp"
 #include "header/structs.hpp"
 
 using namespace cs2_dumper;
 
-constexpr float M_PI = 3.14159265358979f;
+constexpr float M_PI = 3.1415927f;
 
 constexpr int SMOOTH = 100;
 constexpr float FOV = 5;

@@ -23,19 +23,22 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\header\client.dll.hpp">
+    <ClInclude Include="src\header\offsets\client.dll.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\header\offsets.hpp">
+    <ClInclude Include="src\header\offsets\offsets.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\header\driver.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\header\buttons.hpp">
+    <ClInclude Include="src\header\offsets\buttons.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\header\structs.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\header\offsets.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
