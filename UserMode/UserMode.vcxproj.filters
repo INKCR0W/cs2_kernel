@@ -24,6 +24,9 @@
     <ClCompile Include="src\header\cheat\cheat.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\header\overlay\overlay.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\header\offset\client.dll.hpp">
@@ -45,6 +48,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\header\cheat\cheat.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\header\overlay\overlay.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

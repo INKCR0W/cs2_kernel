@@ -143,6 +143,7 @@
   <ItemGroup>
     <ClCompile Include="src\header\cheat\cheat.cpp" />
     <ClCompile Include="src\header\driver\driver.cpp" />
+    <ClCompile Include="src\header\overlay\overlay.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +153,7 @@
     <ClInclude Include="src\header\offset\client.dll.hpp" />
     <ClInclude Include="src\header\driver\driver.hpp" />
     <ClInclude Include="src\header\offset\offsets.hpp" />
+    <ClInclude Include="src\header\overlay\overlay.hpp" />
     <ClInclude Include="src\header\util\structs.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

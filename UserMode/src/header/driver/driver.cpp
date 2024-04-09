@@ -2,7 +2,7 @@
 
 
 namespace driver {
-	DWORD driver::get_process_id(const wchar_t* process_name) {
+	DWORD Driver::get_process_id(const wchar_t* process_name) {
 		DWORD process_id = 0;
 
 		const HANDLE snap_shot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
@@ -30,13 +30,13 @@ namespace driver {
 		return process_id;
 	}
 
-	driver::driver() : driver_handle(nullptr), pid(0), attached(false), error_code(0) {}
+	Driver::Driver() : driver_handle(nullptr), pid(0), attached(false), error_code(0) {}
 
-	driver::driver(const wchar_t* driver_path) : driver(driver_path, static_cast<DWORD>(0)) {}
+	Driver::Driver(const wchar_t* driver_path) : Driver(driver_path, static_cast<DWORD>(0)) {}
 
-	driver::driver(const wchar_t* driver_path, const wchar_t* process_name) : driver(driver_path, get_process_id(process_name)) {}
+	Driver::Driver(const wchar_t* driver_path, const wchar_t* process_name) : Driver(driver_path, get_process_id(process_name)) {}
 
-	driver::driver(const wchar_t* driver_path, const DWORD pid) : pid(pid), attached(false), error_code(0) {
+	Driver::Driver(const wchar_t* driver_path, const DWORD pid) : pid(pid), attached(false), error_code(0) {
 		this->driver_handle = CreateFile(driver_path, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 
 
@@ -57,26 +57,26 @@ namespace driver {
 		this->attach(pid);
 	}
 
-	driver::~driver() {
+	Driver::~Driver() {
 		CloseHandle(driver_handle);
 	}
 
-	bool driver::setDriver(const wchar_t* driver_path) {
+	bool Driver::setDriver(const wchar_t* driver_path) {
 		this->driver_handle = CreateFile(driver_path, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 
 		return (this->driver_handle != INVALID_HANDLE_VALUE);
 	}
 
-	bool driver::attach(const wchar_t* process_name) {
+	bool Driver::attach(const wchar_t* process_name) {
 		const DWORD pid = this->get_process_id(process_name);
 
 		if (pid == 0)
 			return false;
 
-		return driver::attach(pid);
+		return Driver::attach(pid);
 	}
 
-	bool driver::attach(const DWORD pid) {
+	bool Driver::attach(const DWORD pid) {
 		Request r = {
 			reinterpret_cast<HANDLE>(pid),
 			nullptr,
@@ -90,24 +90,24 @@ namespace driver {
 		return this->attached;
 	}
 
-	const HANDLE driver::_driver() const {
+	const HANDLE Driver::_driver() const {
 		return this->driver_handle;
 	}
 
-	const DWORD driver::_pid() const {
+	const DWORD Driver::_pid() const {
 		return this->pid;
 	}
 
-	const bool driver::isAttached() const {
+	const bool Driver::isAttached() const {
 		return this->attached;
 	}
 
-	const int driver::getError() const {
+	const int Driver::getError() const {
 		return this->error_code;
 	}
 
 
-	const std::uintptr_t driver::get_module_base(const wchar_t* module_name) const {
+	const std::uintptr_t Driver::get_module_base(const wchar_t* module_name) const {
 		std::uintptr_t module_base = 0;
 
 		if (this->pid == 0)

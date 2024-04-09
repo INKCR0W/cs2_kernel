@@ -86,9 +86,9 @@ static void print_error_info(const int error_code) {
 
 
 int main() {
-	using driver::driver;
+	using driver::Driver;
 
-	driver myDriver(L"\\\\.\\BabyDriver", L"cs2.exe");
+	Driver myDriver(L"\\\\.\\BabyDriver", L"cs2.exe");
 
 	if (!myDriver.isAttached()) {
 		print_error_info(myDriver.getError());
@@ -147,6 +147,13 @@ int main() {
 				old_punch.y = aim_punch_angle.y * 2.f;
 			}
 			// rcs end
+
+			// no flash
+			//myDriver.write_memory(local_player_pawn + schemas::client_dll::C_CSPlayerPawnBase::m_flFlashMaxAlpha, 0.f);
+			// no flash end
+
+			myDriver.write_memory(local_player_pawn + schemas::client_dll::C_CSPlayerPawnBase::m_flLastSmokeOverlayAlpha, 0.f);
+
 
 			Vec2 view_angle = myDriver.read_memory<Vec2>(view_angle_addr);
 

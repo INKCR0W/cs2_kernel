@@ -37,7 +37,7 @@ namespace driver {
 	}  // namespace error_codes
 
 
-	class driver {
+	class Driver {
 	private:
 		// 驱动句柄
 		HANDLE driver_handle;
@@ -52,12 +52,12 @@ namespace driver {
 		DWORD get_process_id(const wchar_t* process_name);
 
 	public:
-		driver();
-		driver(const wchar_t* driver_path);
-		driver(const wchar_t* driver_path, const wchar_t* process_name);
-		driver(const wchar_t* driver_path, const DWORD pid);
+		Driver();
+		Driver(const wchar_t* driver_path);
+		Driver(const wchar_t* driver_path, const wchar_t* process_name);
+		Driver(const wchar_t* driver_path, const DWORD pid);
 
-		~driver();
+		virtual ~Driver();
 
 		// 获取驱动句柄
 		bool setDriver(const wchar_t* driver_path);
