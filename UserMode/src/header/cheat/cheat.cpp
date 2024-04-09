@@ -1,10 +1,12 @@
 #include <iostream>
+#include <thread>
+// #include <WinUser.h>
 
 #include "cheat.hpp"
 
-
+// , screen_size_x(GetSystemMetrics(SM_CXSCREEN)), screen_size_y(GetSystemMetrics(SM_CYSCREEN))
 namespace cheat {
-	Cheat::Cheat() : Driver(L"\\\\.\\BabyDriver", L"cs2.exe"), overlay(new Overlay(L"Consolas", 14.f)) {
+	Cheat::Cheat() : Driver(L"\\\\.\\BabyDriver", L"cs2.exe"), overlay(new Overlay(L"Consolas", 14.f)), feature(1 << features::MENU) {
 		if (!this->isAttached()) {
 			print_error_info(this->getError());
 			system("pause");
@@ -52,8 +54,27 @@ namespace cheat {
 		}
 	}
 
-	bool Cheat::run() {
+	void Cheat::menu() {
+		overlay->begin_scene();
+		overlay->clear_scene();
+		overlay->draw_text(10, 300, "LIKDAHSGBOLIASWEKJHFGDI", D2D1::ColorF(D2D1::ColorF::Red));
+		overlay->end_scene();
+	}
 
+	void Cheat::render() {
+		while (true) {
+			menu();
+			if (GetAsyncKeyState(VK_END))
+				break;
+		}
+	}
+
+	bool Cheat::run() {
+		std::thread t_render(&Cheat::render, this);
+
+		t_render.join();
+
+		return true;
 	}
 
 
