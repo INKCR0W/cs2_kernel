@@ -18,7 +18,6 @@
 *¡¡¡¡¡¡©»©ß©¿¡¡©»©ß©¿ ¡¡
 */
 
-
 #include <iostream>
 #include <Windows.h>
 #include <TlHelp32.h>
@@ -35,7 +34,10 @@
 
 using namespace cs2_dumper;
 
-constexpr float M_PI = 3.14159265358979;
+constexpr float M_PI = 3.14159265358979f;
+
+constexpr int SMOOTH = 100;
+constexpr float FOV = 5;
 
 
 template <typename T>
@@ -226,7 +228,7 @@ int main() {
 					pitch = 89;
 
 
-				if (std::abs(yaw - view_angle.y - rcs_angle.y) > 10 || std::abs(pitch - view_angle.x - rcs_angle.x) > 10)
+				if (std::abs(yaw - view_angle.y - rcs_angle.y) > FOV || std::abs(pitch - view_angle.x - rcs_angle.x) > FOV)
 					continue;
 
 				if (distance < nearest) {
@@ -265,7 +267,7 @@ int main() {
 
 				target_angle = target_angle - rcs_angle;
 
-				Vec2 aim_angle = (target_angle - view_angle) / 100;
+				Vec2 aim_angle = (target_angle - view_angle) / SMOOTH;
 
 
 				myDriver.write_memory(view_angle_addr, view_angle + aim_angle);
