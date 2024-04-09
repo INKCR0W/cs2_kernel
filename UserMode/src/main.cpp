@@ -136,17 +136,32 @@ int main() {
 			unsigned long long target = 0;
 			Vec3 opp_pos = {};
 			Vec2 target_angle = {};
+			Vec2 rcs_angle = { 0, 0 };
+			static Vec2 old_punch = {};
+
+			//// rcs
+			C_UTL_VECTOR aim_punch_cache = myDriver.read_memory<C_UTL_VECTOR>(local_player_pawn + schemas::client_dll::C_CSPlayerPawn::m_aimPunchCache);
+
+			if (aim_punch_cache.data != 0) {
+				Vec2 aim_punch_angle = myDriver.read_memory<Vec2>(aim_punch_cache.data + (aim_punch_cache.count - 1) * sizeof(Vec3));
+
+				if (myDriver.read_memory<int>(local_player_pawn + schemas::client_dll::C_CSPlayerPawnBase::m_iShotsFired) > 1) {
+					rcs_angle.x = (old_punch.x - aim_punch_angle.x) * 2.f;
+					rcs_angle.y = (old_punch.y - aim_punch_angle.y) * 2.f;
+				}
+
+				old_punch.x = aim_punch_angle.x * 2.f;
+				old_punch.y = aim_punch_angle.y * 2.f;
+			}
+			// rcs end
 
 			Vec2 view_angle = myDriver.read_memory<Vec2>(view_angle_addr);
-
-			int local_player_controller_index = 0;
 
 			for (unsigned long long i = 0; i < 64; ++i) {
 				const uintptr_t entry_address = myDriver.read_memory<uintptr_t>(entity_list + (0x8ULL * (i & 0x7FFF) >> 9) + 0x10);
 				const uintptr_t entry_controller = myDriver.read_memory<uintptr_t>(entry_address + 0x78ULL * (i & 0x1FF));
 
 				if (entry_controller == local_player_controller) {
-					local_player_controller_index = i;
 					continue;
 				}
 
@@ -160,16 +175,14 @@ int main() {
 				if (myDriver.read_memory<int>(entry_pawn + schemas::client_dll::C_BaseEntity::m_iHealth) < 0)
 					continue;
 
-				// glow
 				myDriver.write_memory<float>(entry_pawn + schemas::client_dll::C_CSPlayerPawnBase::m_flDetectedByEnemySensorTime, 100000.f);
-				// glow end
 
 
-				int local_spotted = myDriver.read_memory<int>(local_player_pawn + schemas::client_dll::C_CSPlayerPawnBase::m_entitySpottedState + schemas::client_dll::EntitySpottedState_t::m_bSpottedByMask);
-				int target_spotted = myDriver.read_memory<int>(entry_pawn + schemas::client_dll::C_CSPlayerPawnBase::m_entitySpottedState + schemas::client_dll::EntitySpottedState_t::m_bSpottedByMask);
+				//int local_spotted = myDriver.read_memory<int>(local_player_pawn + schemas::client_dll::C_CSPlayerPawnBase::m_entitySpottedState + schemas::client_dll::EntitySpottedState_t::m_bSpottedByMask);
+				//int target_spotted = myDriver.read_memory<int>(entry_pawn + schemas::client_dll::C_CSPlayerPawnBase::m_entitySpottedState + schemas::client_dll::EntitySpottedState_t::m_bSpottedByMask);
 
-				if (!(target_spotted & (1ULL << entry_pawn) || (local_player_pawn & (1ULL << i))))
-					continue;
+				//if (!(target_spotted & (1ULL << entry_pawn) || (local_player_pawn & (1ULL << i))))
+				//	continue;
 
 				const uintptr_t game_scene_node = myDriver.read_memory<uintptr_t>(entry_pawn + schemas::client_dll::C_BaseEntity::m_pGameSceneNode);
 				const uintptr_t bone_array_address = myDriver.read_memory<uintptr_t>(game_scene_node + schemas::client_dll::CSkeletonInstance::m_modelState + schemas::client_dll::CGameSceneNode::m_vecOrigin);
@@ -212,7 +225,8 @@ int main() {
 				else if (pitch > 89)
 					pitch = 89;
 
-				if (std::abs(yaw - view_angle.y) > 50 || std::abs(pitch - view_angle.x) > 50)
+
+				if (std::abs(yaw - view_angle.y - rcs_angle.y) > 10 || std::abs(pitch - view_angle.x - rcs_angle.x) > 10)
 					continue;
 
 				if (distance < nearest) {
@@ -225,7 +239,7 @@ int main() {
 			//static bool right = true;
 
 
-			if (GetAsyncKeyState(VK_XBUTTON1) && nearest != 999999999.f) {
+			if ((GetAsyncKeyState(VK_XBUTTON1) || GetAsyncKeyState(VK_LBUTTON)) && nearest != 999999999.f) {
 				//if (right)
 				//	roll += 0.1;
 				//else
@@ -248,24 +262,10 @@ int main() {
 				//	Pitch = Pitch - PunchAngle.x * RCSScale.y;
 				//}
 
-				Vec2 aim_angle = (target_angle - view_angle) / 50;
-				//myDriver.write_memory(view_angle_addr, view_angle + aim_angle);
 
+				target_angle = target_angle - rcs_angle;
 
-				static Vec2 old_punch = {};
-
-				C_UTL_VECTOR aim_punch_cache = myDriver.read_memory<C_UTL_VECTOR>(local_player_pawn + schemas::client_dll::C_CSPlayerPawn::m_aimPunchCache);
-
-				Vec2 aim_punch_angle = myDriver.read_memory<Vec2>(aim_punch_cache.data + (aim_punch_cache.count - 1) * sizeof(Vec3));
-
-				if (myDriver.read_memory<int>(local_player_pawn + schemas::client_dll::C_CSPlayerPawnBase::m_iShotsFired) > 1) {
-					aim_angle.x = old_punch.x - aim_punch_angle.x * 2.f;
-					aim_angle.y = old_punch.y - aim_punch_angle.y * 2.f;
-				}
-
-				old_punch.x = aim_punch_angle.x * 2.f;
-				old_punch.y = aim_punch_angle.y * 2.f;
-
+				Vec2 aim_angle = (target_angle - view_angle) / 100;
 
 
 				myDriver.write_memory(view_angle_addr, view_angle + aim_angle);
