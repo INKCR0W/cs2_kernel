@@ -141,16 +141,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\header\driver.cpp" />
+    <ClCompile Include="src\header\cheat\cheat.cpp" />
+    <ClCompile Include="src\header\driver\driver.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\header\offsets.hpp" />
-    <ClInclude Include="src\header\offsets\buttons.hpp" />
-    <ClInclude Include="src\header\offsets\client.dll.hpp" />
-    <ClInclude Include="src\header\driver.hpp" />
-    <ClInclude Include="src\header\offsets\offsets.hpp" />
-    <ClInclude Include="src\header\structs.hpp" />
+    <ClInclude Include="src\header\cheat\cheat.hpp" />
+    <ClInclude Include="src\header\offset\offset.hpp" />
+    <ClInclude Include="src\header\offset\buttons.hpp" />
+    <ClInclude Include="src\header\offset\client.dll.hpp" />
+    <ClInclude Include="src\header\driver\driver.hpp" />
+    <ClInclude Include="src\header\offset\offsets.hpp" />
+    <ClInclude Include="src\header\util\structs.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

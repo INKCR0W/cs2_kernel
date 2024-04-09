@@ -25,7 +25,7 @@ public:
 	}
 	Vec2 operator*(float n)
 	{
-		return { x / n,y / n };
+		return { x * n,y * n };
 	}
 	Vec2 operator/(float n)
 	{

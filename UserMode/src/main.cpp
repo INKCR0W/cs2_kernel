@@ -21,14 +21,12 @@
 #include <iostream>
 #include <Windows.h>
 #include <TlHelp32.h>
-#include <vector>
 #include <string>
-#include <thread>
 #include <cmath>
 
-#include "header/offsets.hpp"
-#include "header/driver.hpp"
-#include "header/structs.hpp"
+#include "header/offset/offset.hpp"
+#include "header/driver/driver.hpp"
+#include "header/util/structs.hpp"
 
 using namespace cs2_dumper;
 
@@ -37,11 +35,6 @@ constexpr float M_PI = 3.1415927f;
 constexpr int SMOOTH = 100;
 constexpr float FOV = 5;
 
-
-template <typename T>
-void Log(T val) {
-	std::cout << val << "\n";
-}
 
 Vec3 clampAngles(Vec3 angles) {
 	if (angles.x > 89.0f && angles.x <= 180.0f) {
