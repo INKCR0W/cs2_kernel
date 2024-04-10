@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "overlay.hpp"
 
 #include <iostream>
@@ -145,15 +147,14 @@ namespace overlay {
 		wchar_t b[256];
 
 		va_list arg_list;
-		va_start(arg_list, str);
+		va_start(arg_list, str.c_str());
 		vsnprintf(buf, sizeof(buf), str.c_str(), arg_list);
 		va_end(arg_list);
 
 		len = strlen(buf);
 		mbstowcs(b, buf, len);
 
-		target->DrawText(b, len, text_format, D2D1::RectF(x, y, screen_size_x, screen_size_y), brush_arr[color],
-			D2D1_DRAW_TEXT_OPTIONS_NONE, DWRITE_MEASURING_MODE_NATURAL);
+		target->DrawText(b, len, text_format, D2D1::RectF(x, y, screen_size_x, screen_size_y), brush_arr[color], D2D1_DRAW_TEXT_OPTIONS_NONE, DWRITE_MEASURING_MODE_NATURAL);
 	}
 
 	void Overlay::draw_line(const float x1, const float y1, const float x2, const float y2, const int color) const {

@@ -31,7 +31,7 @@ namespace cheat {
 		bool run();
 
 	private:
-		FOverlay* overlay;
+		overlay::Overlay* overlay;
 		std::array<hotkey_data, 5> hotkeys;
 
 		const int screen_size_x;
