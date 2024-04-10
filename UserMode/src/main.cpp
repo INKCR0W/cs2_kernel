@@ -31,9 +31,6 @@
 
 #include "header/overlay/overlay.hpp"
 
-#pragma comment(lib, "Dwrite")
-#pragma comment(lib, "Dwmapi.lib") 
-#pragma comment(lib, "d2d1.lib")
 
 using namespace cs2_dumper;
 
