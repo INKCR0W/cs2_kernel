@@ -29,14 +29,21 @@
 #include "header/driver/driver.hpp"
 #include "header/util/structs.hpp"
 
+#include "header/overlay/overlay.hpp"
+
+#pragma comment(lib, "Dwrite")
+#pragma comment(lib, "Dwmapi.lib") 
+#pragma comment(lib, "d2d1.lib")
+
 using namespace cs2_dumper;
 
 
 int main() {
-	cheat::Cheat myCheat;
+	cheat::Cheat* myCheat = new cheat::Cheat;
 
-	myCheat.run();
+	myCheat->run();
 
+	delete myCheat;
 	std::cout << "[*] Program stopped.\n";
 	system("pause");
 }
@@ -98,6 +105,22 @@ int main() {
 //		break;
 //	}
 //}
+
+
+//
+//void CalculateAimPixelPos(Vec2& aimVector, Vec2& viewAngle, int screenWidth, int screenHeight, int& pixelX, int& pixelY) {
+//	// 将视角向量转为相对于目标向量的方向向量
+//	Vec2 relativeAim = aimVector - viewAngle;
+//
+//	// 缩放相对向量到屏幕分辨率范围内
+//	float aspectRatio = static_cast<float>(screenWidth) / screenHeight;
+//	float scaledX = relativeAim.x * aspectRatio;
+//	float scaledY = relativeAim.y;
+//
+//	// 将缩放后的向量转换为屏幕坐标
+//	pixelX = static_cast<int>((scaledX * 0.5f + 0.5f) * screenWidth);
+//	pixelY = static_cast<int>((0.5f - scaledY * 0.5f) * screenHeight);
+//}
 //
 //
 //int main() {
@@ -109,6 +132,20 @@ int main() {
 //		print_error_info(myDriver.getError());
 //		std::cin.get();
 //		return 1;
+//	}
+//
+//	Overlay* overlay = new Overlay(L"Consolas", 14.f);
+//
+//	if (!overlay->init()) {
+//		std::cout << "[-] Failed to initialization overlay.\n";
+//		system("pause");
+//		exit(1);
+//	}
+//
+//	if (!overlay->startup_d2d()) {
+//		std::cout << "[-] Failed to startup Direct2D.\n";
+//		system("pause");
+//		exit(1);
 //	}
 //
 //	std::cout << "[+] Attachment successful.\n";
@@ -166,8 +203,6 @@ int main() {
 //			// no flash
 //			//myDriver.write_memory(local_player_pawn + schemas::client_dll::C_CSPlayerPawnBase::m_flFlashMaxAlpha, 0.f);
 //			// no flash end
-//
-//			myDriver.write_memory(local_player_pawn + schemas::client_dll::C_CSPlayerPawnBase::m_flLastSmokeOverlayAlpha, 0.f);
 //
 //
 //			Vec2 view_angle = myDriver.read_memory<Vec2>(view_angle_addr);
@@ -250,34 +285,8 @@ int main() {
 //				}
 //			}
 //
-//			//static float roll = 0.f;
-//			//static bool right = true;
-//
 //
 //			if ((GetAsyncKeyState(VK_XBUTTON1) || GetAsyncKeyState(VK_LBUTTON)) && nearest != 999999999.f) {
-//				//if (right)
-//				//	roll += 0.1;
-//				//else
-//				//	roll -= 0.1;
-//
-//				//if (roll >= 50)
-//				//	right = false;
-//				//else if (roll <= -50)
-//				//	right = true;
-//
-//
-//				//if (ShotsFired > RCSBullet)
-//				//{
-//				//	Vec2 PunchAngle;
-//				//	if (AimPunchCache.Count <= 0 && AimPunchCache.Count > 0xFFFF)
-//				//		return;
-//				//	PunchAngle = driver.readv<Vec2>(AimPunchCache.Data + (AimPunchCache.Count - 1) * sizeof(Vector3));
-//
-//				//	Yaw = Yaw - PunchAngle.y * RCSScale.x;
-//				//	Pitch = Pitch - PunchAngle.x * RCSScale.y;
-//				//}
-//
-//
 //				target_angle = target_angle - rcs_angle;
 //
 //				Vec2 aim_angle = (target_angle - view_angle) / SMOOTH;

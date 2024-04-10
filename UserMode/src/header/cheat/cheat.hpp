@@ -1,5 +1,7 @@
 #pragma once
 
+#include <array>
+
 #include "../driver/driver.hpp"
 #include "../overlay/overlay.hpp"
 
@@ -12,6 +14,14 @@ namespace cheat {
 		constexpr int NO_FLASH = 1 << 4;
 	}
 
+	class hotkey_data {
+	public:
+		int vk_code;
+		int feature_code;
+
+		hotkey_data(const int _vk, const int _feature) : vk_code(_vk), feature_code(_feature) {}
+	};
+
 	class Cheat : public driver::Driver {
 	public:
 		Cheat();
@@ -21,12 +31,15 @@ namespace cheat {
 		bool run();
 
 	private:
-		Overlay* overlay;
+		FOverlay* overlay;
+		std::array<hotkey_data, 5> hotkeys;
 
-		//const int screen_size_x;
-		//const int screen_size_y;
+		const int screen_size_x;
+		const int screen_size_y;
+		const int menu_render_y;
 
 		int feature;
+		int feature_hotkey;
 
 		void menu();
 		void render();

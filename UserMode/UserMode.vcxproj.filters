@@ -27,6 +27,9 @@
     <ClCompile Include="src\header\overlay\overlay.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\header\cheat\features\menu.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\header\offset\client.dll.hpp">

@@ -1,57 +1,42 @@
-#pragma once
+#define _CRT_SECURE_NO_WARNINGS
+
+#ifndef FOverlay_H
+#define FOverlay_H
+#define M_PI 3.14159265
+#include <windows.h>
+#include <stdio.h>
+#include <dwmapi.h> 
 #include <d2d1.h>
-#include <dwmapi.h>
 #include <dwrite.h>
 #include <string>
-#include <vector>
-#include <windows.h>
+#include <random>
 
-#pragma comment(lib, "d2d1.lib")
-#pragma comment(lib, "Dwmapi.lib")
-#pragma comment(lib, "Dwrite.lib")
+#define _CRT_SECURE_NO_DEPRECATE
+#define _CRT_SECURE_NO_WARNINGS
 
-class Overlay
+class FOverlay
 {
-private:
-    HWND window;
-
-    ID2D1Factory*          d2d_factory;
-    ID2D1HwndRenderTarget* tar;
-    IDWriteFactory*        write_factory;
-    ID2D1SolidColorBrush*  brush;
-    IDWriteTextFormat*     format;
-
-    const wchar_t* font;
-    float          size;
-
 public:
-    Overlay(const wchar_t* Font, float Font_Size) : window(nullptr), d2d_factory(nullptr), tar(nullptr), write_factory(nullptr), brush(nullptr), format(nullptr)
-    {
-        this->font = Font;
-        this->size = Font_Size;
-    }
+	static int ScreenHeight;
+	static int ScreenWidth;
+	auto window_set_style()-> void;
+	auto window_set_transparency()-> void;
+	auto window_set_top_most()-> void;
+	auto retrieve_window()->HWND;
+	void create_window();
+	auto window_init()->BOOL;
+	auto d2d_shutdown()-> void;
+	auto init_d2d()->BOOL;
+	auto begin_scene()-> void;
+	auto end_scene()-> void;
+	auto clear_scene()-> void;
+	auto clear_screen()-> void;
+	auto draw_text(int x, int y, D2D1::ColorF color, const char* str, ...) -> void;
+	auto draw_line(int x1, int y1, int x2, int y2, D2D1::ColorF color) -> void;
+	auto draw_box(D2D1_RECT_F rect, D2D1::ColorF color) -> void;
+	auto draw_boxnew(int x, int y, float width, float height, D2D1::ColorF color) -> void;
+	auto draw_circle(float x, float y, float r, float s, D2D1::ColorF color) -> void;
 
-    ~Overlay()
-    {
-        begin_scene();
-        clear_scene();
-        end_scene();
-
-        tar->Release();
-        write_factory->Release();
-        brush->Release();
-        d2d_factory->Release();
-
-        // printf("tar: %p, write: %p, brush: %p, factory: %p", tar, write_factory, brush, d2d_factory);
-    }
-
-    bool init();
-    bool startup_d2d();
-
-    void begin_scene();
-    void end_scene();
-    void clear_scene();
-
-    /* create helper functions here */
-    void draw_text(int x, int y, const char* text, D2D1::ColorF color, ...);
 };
+
+#endif

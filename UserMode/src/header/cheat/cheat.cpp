@@ -1,12 +1,14 @@
 #include <iostream>
 #include <thread>
-// #include <WinUser.h>
+#include <chrono>
 
 #include "cheat.hpp"
-
-// , screen_size_x(GetSystemMetrics(SM_CXSCREEN)), screen_size_y(GetSystemMetrics(SM_CYSCREEN))
+// L"Consolas", 14.f
 namespace cheat {
-	Cheat::Cheat() : Driver(L"\\\\.\\BabyDriver", L"cs2.exe"), overlay(new Overlay(L"Consolas", 14.f)), feature(1 << features::MENU) {
+	Cheat::Cheat() : Driver(L"\\\\.\\BabyDriver", L"cs2.exe"), overlay(new FOverlay()), feature(features::MENU),
+		screen_size_x(GetSystemMetrics(SM_CXSCREEN)), screen_size_y(GetSystemMetrics(SM_CYSCREEN)), menu_render_y(screen_size_y / 3), feature_hotkey(0),
+		hotkeys({ hotkey_data(VK_INSERT, features::MENU), hotkey_data(VK_F1, features::GLOW), hotkey_data(VK_F2, features::ESP), hotkey_data(VK_F5, features::AIMBOT), hotkey_data(VK_F6, features::NO_FLASH) })
+	{
 		if (!this->isAttached()) {
 			print_error_info(this->getError());
 			system("pause");
@@ -15,13 +17,13 @@ namespace cheat {
 
 		std::cout << "[+] Attachment successful.\n";
 
-		if (!overlay->init()) {
+		if (!overlay->window_init()) {
 			std::cout << "[-] Failed to initialization overlay.\n";
 			system("pause");
 			exit(1);
 		}
 
-		if (!overlay->startup_d2d()) {
+		if (!overlay->init_d2d()) {
 			std::cout << "[-] Failed to startup Direct2D.\n";
 			system("pause");
 			exit(1);
@@ -29,6 +31,10 @@ namespace cheat {
 	}
 
 	Cheat::~Cheat() {
+		overlay->begin_scene();
+		overlay->clear_scene();
+		overlay->end_scene();
+		overlay->d2d_shutdown();
 		delete overlay;
 	}
 
@@ -54,18 +60,14 @@ namespace cheat {
 		}
 	}
 
-	void Cheat::menu() {
-		overlay->begin_scene();
-		overlay->clear_scene();
-		overlay->draw_text(10, 300, "LIKDAHSGBOLIASWEKJHFGDI", D2D1::ColorF(D2D1::ColorF::Red));
-		overlay->end_scene();
-	}
-
 	void Cheat::render() {
 		while (true) {
-			menu();
 			if (GetAsyncKeyState(VK_END))
 				break;
+
+			menu();
+
+			std::this_thread::sleep_for(std::chrono::milliseconds(5));
 		}
 	}
 
