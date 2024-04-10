@@ -111,6 +111,8 @@ namespace overlay {
 		d2d_factory(nullptr), target(nullptr), write_factory(nullptr), text_format(nullptr), brush_arr({}), overlay_window(nullptr) {}
 
 	Overlay::~Overlay() {
+		SetWindowPos(overlay_window, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
+
 		clear_screen();
 
 		d2d_factory->Release();
