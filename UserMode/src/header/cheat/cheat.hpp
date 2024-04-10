@@ -34,9 +34,9 @@ namespace cheat {
 		overlay::Overlay* overlay;
 		std::array<hotkey_data, 5> hotkeys;
 
-		const int screen_size_x;
-		const int screen_size_y;
-		const int menu_render_y;
+		const float screen_size_x;
+		const float screen_size_y;
+		const float menu_render_y;
 
 		int feature;
 		int feature_hotkey;

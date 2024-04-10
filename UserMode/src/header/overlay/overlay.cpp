@@ -145,7 +145,7 @@ namespace overlay {
 
 	void Overlay::draw_text(const float x, const float y, const int color, const std::string& str, ...) const {
 		char buf[4096];
-		int len = 0;
+		size_t len = 0;
 		wchar_t b[256];
 
 		va_list arg_list;
@@ -166,6 +166,20 @@ namespace overlay {
 		target->DrawLine(point1, point2, brush_arr[color]);
 	}
 
+	void Overlay::draw_fill_box(const float x, const float y, const float width, const float height, const int color) const {
+		D2D1_RECT_F rect = {};
+		rect.bottom = y + height / 2;
+		rect.top = y - height / 2;
+		rect.right = x + width / 2;
+		rect.left = x - width / 2;
+
+		draw_fill_box(rect, color);
+	}
+
+	void Overlay::draw_fill_box(const D2D1_RECT_F rect, const int color) const {
+		target->FillRectangle(rect, brush_arr[color]);
+	}
+
 	void Overlay::draw_box(const float x, const float y, const float width, const float height, const int color) const {
 		D2D1_RECT_F rect = {};
 		rect.bottom = y + height / 2;
@@ -177,11 +191,11 @@ namespace overlay {
 	}
 
 	void Overlay::draw_box(const D2D1_RECT_F rect, const int color) const {
-		target->FillRectangle(rect, brush_arr[color]);
+		target->DrawRectangle(rect, brush_arr[color]);
 	}
 
 	void Overlay::draw_circle(const float x, const float y, const float r, const float s, const int color) const {
-		float Step = M_PI * 2.0 / s;
+		float Step = M_PI * 2.f / s;
 		for (float a = 0; a < (M_PI * 2.0); a += Step)
 		{
 			float x1 = r * cos(a) + x;

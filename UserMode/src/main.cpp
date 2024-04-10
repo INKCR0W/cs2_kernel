@@ -47,12 +47,12 @@ int main() {
 
 
 
-
-
+//
+//
 //constexpr float M_PI = 3.1415927f;
 //
-//constexpr int SMOOTH = 100;
-//constexpr float FOV = 5;
+//constexpr int SMOOTH = 1;
+//constexpr float FOV = 50;
 //
 //
 //Vec3 clampAngles(Vec3 angles) {
@@ -102,8 +102,8 @@ int main() {
 //		break;
 //	}
 //}
-
-
+//
+//
 //
 //void CalculateAimPixelPos(Vec2& aimVector, Vec2& viewAngle, int screenWidth, int screenHeight, int& pixelX, int& pixelY) {
 //	// 将视角向量转为相对于目标向量的方向向量
@@ -131,19 +131,6 @@ int main() {
 //		return 1;
 //	}
 //
-//	Overlay* overlay = new Overlay(L"Consolas", 14.f);
-//
-//	if (!overlay->init()) {
-//		std::cout << "[-] Failed to initialization overlay.\n";
-//		system("pause");
-//		exit(1);
-//	}
-//
-//	if (!overlay->startup_d2d()) {
-//		std::cout << "[-] Failed to startup Direct2D.\n";
-//		system("pause");
-//		exit(1);
-//	}
 //
 //	std::cout << "[+] Attachment successful.\n";
 //
@@ -197,9 +184,9 @@ int main() {
 //			}
 //			// rcs end
 //
-//			// no flash
-//			//myDriver.write_memory(local_player_pawn + schemas::client_dll::C_CSPlayerPawnBase::m_flFlashMaxAlpha, 0.f);
-//			// no flash end
+//			 // no flash
+//			myDriver.write_memory(local_player_pawn + schemas::client_dll::C_CSPlayerPawnBase::m_flFlashMaxAlpha, 0.f);
+//			//  no flash end
 //
 //
 //			Vec2 view_angle = myDriver.read_memory<Vec2>(view_angle_addr);

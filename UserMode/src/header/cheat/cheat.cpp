@@ -6,7 +6,7 @@
 // L"Consolas", 14.f
 namespace cheat {
 	Cheat::Cheat() : Driver(L"\\\\.\\BabyDriver", L"cs2.exe"), overlay(new overlay::Overlay()), feature(features::MENU),
-		screen_size_x(GetSystemMetrics(SM_CXSCREEN)), screen_size_y(GetSystemMetrics(SM_CYSCREEN)), menu_render_y(screen_size_y / 3), feature_hotkey(0),
+		screen_size_x(static_cast<float>(GetSystemMetrics(SM_CXSCREEN))), screen_size_y(static_cast<float>(GetSystemMetrics(SM_CYSCREEN))), menu_render_y(screen_size_y / 3), feature_hotkey(0),
 		hotkeys({ hotkey_data(VK_INSERT, features::MENU), hotkey_data(VK_F1, features::GLOW), hotkey_data(VK_F2, features::ESP), hotkey_data(VK_F5, features::AIMBOT), hotkey_data(VK_F6, features::NO_FLASH) })
 	{
 		if (!this->isAttached()) {

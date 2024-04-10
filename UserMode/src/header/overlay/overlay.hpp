@@ -14,7 +14,7 @@
 #pragma comment(lib, "d2d1.lib")
 
 namespace overlay {
-	static const float M_PI = 3.14159265;
+	static const float M_PI = 3.1415927f;
 
 	namespace colors {
 		static const short write = 0;
@@ -39,6 +39,8 @@ namespace overlay {
 
 		void draw_text(const float x, const float y, const int color, const std::string& str, ...) const;
 		void draw_line(const float x1, const float y1, const float x2, const float y2, const int color) const;
+		void draw_fill_box(const float x, const float y, const float width, const float height, const int color) const;
+		void draw_fill_box(const D2D1_RECT_F rect, const int color) const;
 		void draw_box(const float x, const float y, const float width, const float height, const int color) const;
 		void draw_box(const D2D1_RECT_F rect, const int color) const;
 		void draw_circle(const float x, const float y, const float r, const float s, const int color) const;
