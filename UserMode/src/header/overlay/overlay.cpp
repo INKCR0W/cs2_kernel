@@ -4,6 +4,9 @@ static HWND win;
 int FOverlay::ScreenHeight = 0;
 int FOverlay::ScreenWidth = 0;
 
+int FOverlay::screen_size_x = GetSystemMetrics(SM_CXSCREEN);
+int FOverlay::screen_size_y = GetSystemMetrics(SM_CYSCREEN);
+
 auto FOverlay::window_set_style() -> void {
 	int i = 0;
 
@@ -30,6 +33,7 @@ std::string RandomString(const int len) {
 
 	return s;
 }
+
 
 auto FOverlay::window_set_transparency() -> void {
 	MARGINS margin;
@@ -190,11 +194,11 @@ auto FOverlay::draw_line(int x1, int y1, int x2, int y2, D2D1::ColorF color) -> 
 	point2.x = x2;
 	point2.y = y2;
 
-	ID2D1SolidColorBrush* temp;
+	//ID2D1SolidColorBrush* temp;
 
-	tar->CreateSolidColorBrush(color, &temp);
-	tar->DrawLine(point1, point2, temp);
-	temp->Release();
+	//tar->CreateSolidColorBrush(color, &temp);
+	tar->DrawLine(point1, point2, brush);
+	//temp->Release();
 }
 
 auto FOverlay::draw_boxnew(int x, int y, float width, float height, D2D1::ColorF color) -> void {
@@ -208,12 +212,15 @@ auto FOverlay::draw_boxnew(int x, int y, float width, float height, D2D1::ColorF
 }
 
 auto FOverlay::draw_box(D2D1_RECT_F rect, D2D1::ColorF color) -> void {
-	ID2D1SolidColorBrush* temp;
+	//ID2D1SolidColorBrush* temp;
 
-	tar->CreateSolidColorBrush(color, &temp);
+	//tar->CreateSolidColorBrush(color, &temp);
 
-	tar->FillRectangle(rect, temp);
-	temp->Release();
+	//if (temp == 0)
+	//	return;
+
+	tar->FillRectangle(rect, brush);
+	//temp->Release();
 }
 
 
@@ -229,13 +236,13 @@ auto FOverlay::draw_text(int x, int y, D2D1::ColorF color, const char* str, ...)
 
 	len = strlen(buf);
 	mbstowcs(b, buf, len);
-	ID2D1SolidColorBrush* temp;
+	//ID2D1SolidColorBrush* temp;
 
-	tar->CreateSolidColorBrush(color, &temp);
+	//tar->CreateSolidColorBrush(color, &temp);
 
-	tar->DrawText(b, len, format, D2D1::RectF(x, y, 1920, 1080), temp,
+	tar->DrawText(b, len, format, D2D1::RectF(x, y, screen_size_x, screen_size_y), brush,
 		D2D1_DRAW_TEXT_OPTIONS_NONE, DWRITE_MEASURING_MODE_NATURAL);
-	temp->Release();
+	//temp->Release();
 }
 
 auto FOverlay::draw_circle(float x, float y, float r, float s, D2D1::ColorF color) -> void

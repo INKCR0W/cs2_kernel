@@ -65,8 +65,12 @@ namespace cheat {
 			if (GetAsyncKeyState(VK_END))
 				break;
 
+			overlay->begin_scene();
+			overlay->clear_scene();
+
 			menu();
 
+			overlay->end_scene();
 			std::this_thread::sleep_for(std::chrono::milliseconds(5));
 		}
 	}

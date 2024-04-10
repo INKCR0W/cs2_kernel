@@ -6,19 +6,6 @@ namespace cheat {
 	void Cheat::menu() {
 		using namespace features;
 
-		overlay->begin_scene();
-		overlay->clear_scene();
-
-		//if (GetAsyncKeyState(VK_INSERT)) {
-		//	if (feature_hotkey ^ features::MENU) {
-		//		feature_hotkey |= features::MENU;
-		//		feature ^= features::MENU;
-		//	}
-		//}
-		//else {
-		//	feature_hotkey &= (~features::MENU);
-		//}
-
 		for (const auto &iter : hotkeys) {
 			if (GetAsyncKeyState(iter.vk_code)) {
 				if (feature_hotkey ^ iter.feature_code) {
@@ -33,15 +20,8 @@ namespace cheat {
 
 
 		if (!(feature & MENU)) {
-			overlay->end_scene();
 			return;
 		}
-
-		//constexpr int MENU = 1 << 0;
-		//constexpr int GLOW = 1 << 1;
-		//constexpr int ESP = 1 << 2;
-		//constexpr int AIMBOT = 1 << 3;
-		//constexpr int NO_FLASH = 1 << 4;
 
 		//overlay->draw_text(10, menu_render_y, "PUSH INSERT TO OPEN/CLOSE THIS MENU", D2D1::ColorF(D2D1::ColorF::Red));
 		//overlay->draw_text(10, menu_render_y + 15, (std::string("F1 GLOW ") + (feature & GLOW ? "ON" : "OFF")).c_str(), D2D1::ColorF(D2D1::ColorF::Red));

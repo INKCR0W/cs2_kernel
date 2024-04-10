@@ -17,6 +17,8 @@
 class FOverlay
 {
 public:
+	static int screen_size_x;
+	static int screen_size_y;
 	static int ScreenHeight;
 	static int ScreenWidth;
 	auto window_set_style()-> void;
