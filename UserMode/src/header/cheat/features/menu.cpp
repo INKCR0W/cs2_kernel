@@ -32,8 +32,7 @@ namespace cheat {
 
 
 		overlay->draw_circle(screen_size_x / 2.f + 0.5f, screen_size_y / 2.f + 0.5f, 60, 50, red);
-		// overlay->draw_box(screen_size_x / 2.f + 0.5, screen_size_y / 2.f + 0.5, 20, 20, red);
-		overlay->draw_line(0, 0, screen_size_x, screen_size_y, red);
+		overlay->draw_box(screen_size_x / 2.f + 0.5f, screen_size_y / 2.f + 0.5f, 30, 30, red);
 
 
 		overlay->end_scene();

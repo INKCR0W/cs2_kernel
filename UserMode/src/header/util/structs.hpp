@@ -109,3 +109,10 @@ struct C_UTL_VECTOR
 	DWORD_PTR count = 0;
 	DWORD_PTR data = 0;
 };
+
+struct view_matrix_t {
+	float* operator[ ](int index) {
+		return matrix[index];
+	}
+	float matrix[4][4];
+};
