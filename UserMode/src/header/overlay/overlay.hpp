@@ -37,7 +37,7 @@ namespace overlay {
 
 		void clear_screen();
 
-		void draw_text(const float x, const float y, const int color, const std::string& str, ...) const;
+		void draw_text(const float x, const float y, const int color, const std::string& str) const;
 		void draw_line(const float x1, const float y1, const float x2, const float y2, const int color) const;
 		void draw_fill_box(const float x, const float y, const float width, const float height, const int color) const;
 		void draw_fill_box(const D2D1_RECT_F& rect, const int color) const;

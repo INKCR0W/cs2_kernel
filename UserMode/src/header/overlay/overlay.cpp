@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cmath>
 #include <stdarg.h>
+#include <codecvt>
 
 namespace overlay {
 	using std::cerr;
@@ -104,6 +105,7 @@ namespace overlay {
 			return false;
 		}
 
+		setlocale(LC_ALL, "chs");
 
 		target->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::White), &brush_arr[colors::write]);
 		target->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Gray), &brush_arr[colors::grey]);
@@ -150,20 +152,26 @@ namespace overlay {
 		this->end_scene();
 	}
 
-	void Overlay::draw_text(const float x, const float y, const int color, const std::string& str, ...) const {
-		char buf[4096];
-		size_t len = 0;
-		wchar_t b[256];
+	void Overlay::draw_text(const float x, const float y, const int color, const std::string& str) const {
+		//char buf[4096];
+		//size_t len = 0;
+		//wchar_t b[256];
 
-		va_list arg_list;
-		va_start(arg_list, str.c_str());
-		vsnprintf(buf, sizeof(buf), str.c_str(), arg_list);
-		va_end(arg_list);
+		//va_list arg_list;
+		//va_start(arg_list, str.c_str());
+		//vsnprintf(buf, sizeof(buf), str.c_str(), arg_list);
+		//va_end(arg_list);
 
-		len = strlen(buf);
-		mbstowcs(b, buf, len);
+		//len = strlen(buf);
+		//mbstowcs(b, buf, len);
 
-		target->DrawText(b, static_cast<UINT>(len), text_format, D2D1::RectF(x, y, screen_size_x, screen_size_y), brush_arr[color], D2D1_DRAW_TEXT_OPTIONS_NONE, DWRITE_MEASURING_MODE_NATURAL);
+
+		uint32_t len = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, NULL, 0);
+		wchar_t* wstr = new wchar_t[len];
+		len = MultiByteToWideChar(CP_ACP, 0, str.c_str(), str.length(), wstr, len);
+
+		target->DrawText(wstr, len, text_format, D2D1::RectF(x, y, screen_size_x, screen_size_y), brush_arr[color], D2D1_DRAW_TEXT_OPTIONS_NONE, DWRITE_MEASURING_MODE_NATURAL);
+		delete[] wstr;
 	}
 
 	void Overlay::draw_line(const float x1, const float y1, const float x2, const float y2, const int color) const {

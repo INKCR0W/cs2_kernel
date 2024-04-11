@@ -24,16 +24,11 @@ namespace cheat {
 			return;
 		}
 
-		overlay->draw_text(10, menu_render_y, grey, "[INSERT] TO OPEN/CLOSE MENU");
+		overlay->draw_text(10, menu_render_y, grey, "[INSERT] TO OPEN/CLOSE MENU ÖÐÎÄ²âÊÔ");
 		overlay->draw_text(10, menu_render_y + 15, feature & GLOW ? green : red, "F1 GLOW");
 		overlay->draw_text(10, menu_render_y + 30, feature & ESP ? green : red, "F2 ESP");
 		overlay->draw_text(10, menu_render_y + 45, feature & AIMBOT ? green : red, "F5 AIMBOT");
 		overlay->draw_text(10, menu_render_y + 60, feature & NO_FLASH ? green : red, "F6 NO FLASH");
-
-		overlay->draw_circle(screen_size_x / 2.f, screen_size_y / 2.f, 10.f, red);
-
-		overlay->draw_line(0, screen_size_y / 2, screen_size_x, screen_size_y / 2, red);
-		overlay->draw_line(screen_size_x / 2, 0, screen_size_x / 2, screen_size_y, red);
 
 		overlay->end_scene();
 	}
