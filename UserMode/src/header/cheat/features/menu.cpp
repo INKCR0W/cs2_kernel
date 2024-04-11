@@ -6,16 +6,17 @@ namespace cheat {
 	using namespace overlay::colors;
 	void Cheat::menu() {
 		using namespace features;
+		using namespace hotkeys;
 
 		for (const auto &iter : hotkeys) {
 			if (GetAsyncKeyState(iter.vk_code)) {
-				if (feature_hotkey ^ iter.feature_code) {
-					feature_hotkey |= iter.feature_code;
+				if (hotkey_pushed ^ iter.feature_code) {
+					hotkey_pushed |= iter.feature_code;
 					feature ^= iter.feature_code;
 				}
 			}
 			else {
-				feature_hotkey &= (~iter.feature_code);
+				hotkey_pushed &= (~iter.feature_code);
 			}
 		}
 

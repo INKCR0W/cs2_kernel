@@ -168,7 +168,7 @@ namespace overlay {
 
 		uint32_t len = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, NULL, 0);
 		wchar_t* wstr = new wchar_t[len];
-		len = MultiByteToWideChar(CP_ACP, 0, str.c_str(), str.length(), wstr, len);
+		len = MultiByteToWideChar(CP_ACP, 0, str.c_str(), static_cast<int>(str.length()), wstr, len);
 
 		target->DrawText(wstr, len, text_format, D2D1::RectF(x, y, screen_size_x, screen_size_y), brush_arr[color], D2D1_DRAW_TEXT_OPTIONS_NONE, DWRITE_MEASURING_MODE_NATURAL);
 		delete[] wstr;
