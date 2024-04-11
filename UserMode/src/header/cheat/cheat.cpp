@@ -51,8 +51,15 @@ namespace cheat {
 
 	void Cheat::render() {
 		while (true) {
-			if (GetAsyncKeyState(VK_END))
+			std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
+			if (GetAsyncKeyState(VK_DELETE))
 				break;
+
+			if (overlay->window() != GetForegroundWindow()) {
+				overlay->clear_screen();
+				continue;
+			}
 
 			overlay->begin_scene();
 			overlay->clear_scene();
@@ -60,7 +67,6 @@ namespace cheat {
 			menu();
 
 			overlay->end_scene();
-			std::this_thread::sleep_for(std::chrono::milliseconds(10));
 		}
 	}
 

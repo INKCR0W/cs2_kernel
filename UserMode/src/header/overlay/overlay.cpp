@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <stdarg.h>
 
 namespace overlay {
 	using std::cerr;
@@ -12,6 +13,12 @@ namespace overlay {
 		overlay_window = FindWindowA("CEF-OSC-WIDGET", "NVIDIA GeForce Overlay");
 		if (!overlay_window) {
 			cerr << "[-] Failed to find NVIDIA GeForce Overlay\n";
+			return false;
+		}
+
+		cs2_window = FindWindowA("SDL_app", "Counter-Strike 2");
+		if (!cs2_window) {
+			cerr << "[-] Failed to find CS2 Window\n";
 			return false;
 		}
 
@@ -107,8 +114,8 @@ namespace overlay {
 	}
 
 
-	Overlay::Overlay() : screen_size_x(GetSystemMetrics(SM_CXSCREEN)), screen_size_y(GetSystemMetrics(SM_CYSCREEN)),
-		d2d_factory(nullptr), target(nullptr), write_factory(nullptr), text_format(nullptr), brush_arr({}), overlay_window(nullptr) {}
+	Overlay::Overlay() : screen_size_x(static_cast<float>(GetSystemMetrics(SM_CXSCREEN))), screen_size_y(static_cast<float>(GetSystemMetrics(SM_CYSCREEN))),
+		d2d_factory(nullptr), target(nullptr), write_factory(nullptr), text_format(nullptr), brush_arr({}), overlay_window(nullptr), cs2_window(nullptr) {}
 
 	Overlay::~Overlay() {
 		SetWindowPos(overlay_window, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
@@ -156,7 +163,7 @@ namespace overlay {
 		len = strlen(buf);
 		mbstowcs(b, buf, len);
 
-		target->DrawText(b, len, text_format, D2D1::RectF(x, y, screen_size_x, screen_size_y), brush_arr[color], D2D1_DRAW_TEXT_OPTIONS_NONE, DWRITE_MEASURING_MODE_NATURAL);
+		target->DrawText(b, static_cast<UINT>(len), text_format, D2D1::RectF(x, y, screen_size_x, screen_size_y), brush_arr[color], D2D1_DRAW_TEXT_OPTIONS_NONE, DWRITE_MEASURING_MODE_NATURAL);
 	}
 
 	void Overlay::draw_line(const float x1, const float y1, const float x2, const float y2, const int color) const {
@@ -176,7 +183,7 @@ namespace overlay {
 		draw_fill_box(rect, color);
 	}
 
-	void Overlay::draw_fill_box(const D2D1_RECT_F rect, const int color) const {
+	void Overlay::draw_fill_box(const D2D1_RECT_F& rect, const int color) const {
 		target->FillRectangle(rect, brush_arr[color]);
 	}
 
@@ -190,19 +197,26 @@ namespace overlay {
 		draw_box(rect, color);
 	}
 
-	void Overlay::draw_box(const D2D1_RECT_F rect, const int color) const {
+	void Overlay::draw_box(const D2D1_RECT_F& rect, const int color) const {
 		target->DrawRectangle(rect, brush_arr[color]);
 	}
 
-	void Overlay::draw_circle(const float x, const float y, const float r, const float s, const int color) const {
-		float Step = M_PI * 2.f / s;
-		for (float a = 0; a < (M_PI * 2.0); a += Step)
-		{
-			float x1 = r * cos(a) + x;
-			float y1 = r * sin(a) + y;
-			float x2 = r * cos(a + Step) + x;
-			float y2 = r * sin(a + Step) + y;
-			draw_line(x1, y1, x2, y2, color);
-		}
+	void Overlay::draw_circle(const float x, const float y, const float r, const int color) const {
+		//float Step = M_PI * 2.f / s;
+		//for (float a = 0; a < (M_PI * 2.0); a += Step)
+		//{
+		//	float x1 = r * cos(a) + x;
+		//	float y1 = r * sin(a) + y;
+		//	float x2 = r * cos(a + Step) + x;
+		//	float y2 = r * sin(a + Step) + y;
+		//	draw_line(x1, y1, x2, y2, color);
+		//}
+
+		D2D1_ELLIPSE ellipse = D2D1::Ellipse(D2D1::Point2F(x, y), r, r);
+		target->DrawEllipse(ellipse, brush_arr[color]);
+	}
+
+	const HWND Overlay::window() const {
+		return cs2_window;
 	}
 }

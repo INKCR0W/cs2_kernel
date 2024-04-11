@@ -47,12 +47,12 @@ int main() {
 
 
 
-//
+
 //
 //constexpr float M_PI = 3.1415927f;
 //
-//constexpr int SMOOTH = 1;
-//constexpr float FOV = 50;
+//constexpr int SMOOTH = 100;
+//constexpr float FOV = 30;
 //
 //
 //Vec3 clampAngles(Vec3 angles) {

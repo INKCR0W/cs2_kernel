@@ -30,10 +30,10 @@ namespace cheat {
 		overlay->draw_text(10, menu_render_y + 45, feature & AIMBOT ? green : red, "F5 AIMBOT");
 		overlay->draw_text(10, menu_render_y + 60, feature & NO_FLASH ? green : red, "F6 NO FLASH");
 
+		overlay->draw_circle(screen_size_x / 2.f, screen_size_y / 2.f, 10.f, red);
 
-		overlay->draw_circle(screen_size_x / 2.f + 0.5f, screen_size_y / 2.f + 0.5f, 60, 50, red);
-		overlay->draw_box(screen_size_x / 2.f + 0.5f, screen_size_y / 2.f + 0.5f, 30, 30, red);
-
+		overlay->draw_line(0, screen_size_y / 2, screen_size_x, screen_size_y / 2, red);
+		overlay->draw_line(screen_size_x / 2, 0, screen_size_x / 2, screen_size_y, red);
 
 		overlay->end_scene();
 	}
