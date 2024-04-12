@@ -142,6 +142,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\header\cheat\cheat.cpp" />
+    <ClCompile Include="src\header\cheat\features\esp.cpp" />
+    <ClCompile Include="src\header\cheat\features\game.cpp" />
     <ClCompile Include="src\header\cheat\features\menu.cpp" />
     <ClCompile Include="src\header\driver\driver.cpp" />
     <ClCompile Include="src\header\overlay\overlay.cpp" />

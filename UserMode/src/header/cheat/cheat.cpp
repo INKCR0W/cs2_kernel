@@ -7,21 +7,16 @@
 namespace cheat {
 	Cheat::Cheat() : Driver(L"\\\\.\\BabyDriver", L"cs2.exe"), overlay(new overlay::Overlay()),
 		screen_size_x(static_cast<float>(GetSystemMetrics(SM_CXSCREEN))), screen_size_y(static_cast<float>(GetSystemMetrics(SM_CYSCREEN))),
-		menu_render_y(screen_size_y / 3)
-		//feature(hotkeys::MENU), feature_hotkey(0), hotkey_pushed(0),
-		//hotkeys(
-		//	{
-		//		hotkey_data(VK_ADD, hotkeys::MENU),
-		//		hotkey_data(VK_NUMPAD0, hotkeys::PAD_0),
-		//		hotkey_data(VK_NUMPAD1, hotkeys::PAD_1),
-		//		hotkey_data(VK_NUMPAD2, hotkeys::PAD_2),
-		//		hotkey_data(VK_NUMPAD4, hotkeys::PAD_4),
-		//		hotkey_data(VK_NUMPAD5, hotkeys::PAD_5),
-		//		hotkey_data(VK_NUMPAD6, hotkeys::PAD_6),
-		//		hotkey_data(VK_NUMPAD7, hotkeys::PAD_7),
-		//		hotkey_data(VK_NUMPAD8, hotkeys::PAD_8),
-		//	})
+		menu_render_y(screen_size_y / 3),
+		client_dll(0), in_match(false), local_player_pawn(0), local_player_controller(0), entity_list({})
 	{
+		std::cout
+			<< R"(  ____      _    __   __   ____     _____    _   _    ____     _____ )" << "\n"
+			<< R"( / ___|    / \   \ \ / /  / ___|   | ____|  | \ | |  / ___|   | ____|)" << "\n"
+			<< R"(| |  _    / _ \   \ V /   \___ \   |  _|    |  \| |  \___ \   |  _|)" << "\n"
+			<< R"(| |_| |  / ___ \   | |     ___) |  | |___   | |\  |   ___) |  | |___)" << "\n"
+			<< R"( \____| /_ /  \_\  |_|    |____/   |_____|  |_| \_|  |____/   |_____|)" << "\n\n\n";
+
 		if (!this->isAttached()) {
 			print_error_info(this->getError());
 			system("pause");
@@ -30,10 +25,18 @@ namespace cheat {
 
 		std::cout << "[+] Attachment successful.\n";
 
+		if (client_dll = get_module_base(L"client.dll"); client_dll != 0) {
+			std::cout << "[+] Client.dll found, address : 0x" << std::hex << std::uppercase << client_dll << "\n";
+		}
+
 		if (!overlay->init()) {
 			system("pause");
 			exit(1);
 		}
+
+		std::cout << "[+] Overlay initialization successful, CS2 window : 0x" << std::hex << std::uppercase << overlay->window() << "\n";
+
+		std::cout << "[+] All the shit is done, press DELETE to stop the program.\n";
 	}
 
 	Cheat::~Cheat() {
