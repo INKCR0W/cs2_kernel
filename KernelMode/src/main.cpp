@@ -1,11 +1,94 @@
 #include <ntifs.h>
+#include <wdm.h>
+
+typedef unsigned char BYTE;
 
 extern "C" {
 	NTKERNELAPI NTSTATUS IoCreateDriver(PUNICODE_STRING DriverName, PDRIVER_INITIALIZE InitializationFunction);
 
 	NTKERNELAPI NTSTATUS MmCopyVirtualMemory(PEPROCESS SourceProcess, PVOID SourceAddress, PEPROCESS TargetProcess, PVOID TargetAddress,
 											 SIZE_T BufferSize, KPROCESSOR_MODE PreviousMode, PSIZE_T ReturnSize);
+
+	//NTKERNELAPI PPEB NTAPI PsGetProcessPeb(IN PEPROCESS Process);
+	NTKERNELAPI PVOID PsGetProcessSectionBaseAddress(IN PEPROCESS Process);
+	NTKERNELAPI PVOID NTAPI PsGetProcessWow64Process(IN PEPROCESS Process);
+
+	typedef NTSTATUS(*PsLookupProcessByProcessNamePtr)(IN PUNICODE_STRING ProcessName, OUT PEPROCESS* Process);
+	typedef PPEB(*PsGetProcessPebPtr)(IN PEPROCESS Process);
+
+	typedef void(__stdcall* PPS_POST_PROCESS_INIT_ROUTINE)(void);
 }
+
+typedef struct _PEB_LDR_DATA {
+	ULONG Length;
+	BOOLEAN Initialized;
+	PVOID SsHandle;
+	LIST_ENTRY InLoadOrderModuleList;
+	LIST_ENTRY InMemoryOrderModuleList;
+	LIST_ENTRY InInitializationOrderModuleList;
+	PVOID EntryInProgress;
+} PEB_LDR_DATA, * PPEB_LDR_DATA;
+
+typedef struct _RTL_USER_PROCESS_PARAMETERS {
+	BYTE Reserved1[16];
+	PVOID Reserved2[10];
+	UNICODE_STRING ImagePathName;
+	UNICODE_STRING CommandLine;
+} RTL_USER_PROCESS_PARAMETERS, * PRTL_USER_PROCESS_PARAMETERS;
+
+typedef struct _PEB {
+	BYTE Reserved1[2];
+	BYTE BeingDebugged;
+	BYTE Reserved2[1];
+	PVOID Reserved3[2];
+	PPEB_LDR_DATA Ldr;
+	PRTL_USER_PROCESS_PARAMETERS ProcessParameters;
+	PVOID Reserved4[3];
+	PVOID AtlThunkSListPtr;
+	PVOID Reserved5;
+	ULONG Reserved6;
+	PVOID Reserved7;
+	ULONG Reserved8;
+	ULONG AtlThunkSListPtr32;
+	PVOID Reserved9[45];
+	BYTE Reserved10[96];
+	PPS_POST_PROCESS_INIT_ROUTINE PostProcessInitRoutine;
+	BYTE Reserved11[128];
+	PVOID Reserved12[1];
+	ULONG SessionId;
+} PEB, * PPEB;
+
+
+typedef struct _LDR_DATA_TABLE_ENTRY {
+    LIST_ENTRY InLoadOrderLinks;
+    LIST_ENTRY InMemoryOrderLinks;
+    LIST_ENTRY InInitializationOrderLinks;
+    PVOID DllBase;
+    PVOID EntryPoint;
+    ULONG SizeOfImage;
+    UNICODE_STRING FullDllName;
+    UNICODE_STRING BaseDllName;
+    ULONG Flags;
+    USHORT LoadCount;
+    USHORT TlsIndex;
+    LIST_ENTRY HashLinks;
+    PVOID SectionPointer;
+    ULONG CheckSum;
+    ULONG TimeDateStamp;
+    PVOID LoadedImports;
+    PVOID EntryPointActivationContext;
+    PVOID PatchInformation;
+} LDR_DATA_TABLE_ENTRY, *PLDR_DATA_TABLE_ENTRY;
+
+
+
+
+PsLookupProcessByProcessNamePtr PsLookupProcessByProcessName = NULL;
+PsGetProcessPebPtr PsGetProcessPeb = NULL;
+
+
+
+
 
 
 void debug_print(PCSTR text) {
@@ -22,6 +105,9 @@ namespace driver {
 		constexpr ULONG attach =
 			CTL_CODE(FILE_DEVICE_UNKNOWN, 0x676, METHOD_BUFFERED, FILE_SPECIAL_ACCESS);
 
+		constexpr ULONG attach2 =
+			CTL_CODE(FILE_DEVICE_UNKNOWN, 0x677, METHOD_BUFFERED, FILE_SPECIAL_ACCESS);
+
 		// Read process memory.
 		constexpr ULONG read =
 			CTL_CODE(FILE_DEVICE_UNKNOWN, 0x678, METHOD_BUFFERED, FILE_SPECIAL_ACCESS);
@@ -29,6 +115,9 @@ namespace driver {
 		// Write process memory.
 		constexpr ULONG write =
 			CTL_CODE(FILE_DEVICE_UNKNOWN, 0x679, METHOD_BUFFERED, FILE_SPECIAL_ACCESS);
+
+		constexpr ULONG get_moudle =
+			CTL_CODE(FILE_DEVICE_UNKNOWN, 0x680, METHOD_BUFFERED, FILE_SPECIAL_ACCESS);
 	}  // namespace codes
 
 	// Shared between user mode & kernel mode.
@@ -41,6 +130,119 @@ namespace driver {
 		SIZE_T size;
 		SIZE_T return_size;
 	};
+
+	NTSTATUS AttachProcess(PEPROCESS* target_process) {
+		NTSTATUS Status = STATUS_UNSUCCESSFUL;
+		PEPROCESS Process = NULL;
+		HANDLE process_id = 0;
+
+		if (PsLookupProcessByProcessName)
+		{
+			UNICODE_STRING game_process_name = {};
+			RtlInitUnicodeString(&game_process_name, L"cs2.exe");
+			Status = PsLookupProcessByProcessName(&game_process_name, &Process);
+			if (NT_SUCCESS(Status))
+			{
+				process_id = PsGetProcessId(Process);
+				ObDereferenceObject(Process);
+			}
+		}
+
+		if (!NT_SUCCESS(Status))
+		{
+			return Status;
+		}
+
+		return PsLookupProcessByProcessId(process_id, target_process);
+	}
+
+
+	NTSTATUS GetModuleBaseProcess(__in PEPROCESS Process, __in LPCWSTR ModuleName, __out ULONG64* Module_Base) {
+		//NTSTATUS Status = STATUS_UNSUCCESSFUL;
+
+		//UNICODE_STRING module_name;
+		//RtlInitUnicodeString(&module_name, ModuleName);
+
+		//if (Process != NULL)
+		//{
+		//	PPEB pPeb = (PPEB)PsGetProcessPeb(Process);
+
+		//	if (pPeb != NULL)
+		//	{
+		//		PPEB_LDR_DATA pLdr = pPeb->Ldr;
+
+		//		if (pLdr != NULL)
+		//		{
+		//			PLIST_ENTRY pListEntry = pLdr->InLoadOrderModuleList.Flink;
+		//			while (pListEntry != &pLdr->InLoadOrderModuleList)
+		//			{
+		//				PLDR_DATA_TABLE_ENTRY pEntry = CONTAINING_RECORD(pListEntry, _LDR_DATA_TABLE_ENTRY, InLoadOrderLinks);
+
+		//				if (RtlEqualUnicodeString(&pEntry->BaseDllName, &module_name, TRUE))
+		//				{
+		//					*Module_Base = reinterpret_cast<ULONG64>(pEntry->DllBase);
+		//					return STATUS_SUCCESS;
+		//				}
+
+		//				pListEntry = pListEntry->Flink;
+		//			}
+		//		}
+		//	}
+		//}
+
+		//return Status;
+
+		NTSTATUS status = STATUS_SUCCESS;
+		UNICODE_STRING moduleNameUnicode;
+		PVOID moduleBase = NULL;
+
+		RtlInitUnicodeString(&moduleNameUnicode, ModuleName);
+
+		PPEB peb = PsGetProcessPeb(Process);
+		if (!peb) {
+			status = STATUS_UNSUCCESSFUL;
+			return status;
+		}
+
+		PPEB_LDR_DATA ldr = peb->Ldr;
+		if (!ldr) {
+			status = STATUS_UNSUCCESSFUL;
+			return status;
+		}
+
+		// 锁定 PEB_LDR_DATA 数据结构
+		KAPC_STATE apcState;
+		KeStackAttachProcess(Process, &apcState);
+
+		PLIST_ENTRY moduleList = &ldr->InMemoryOrderModuleList;
+		PLIST_ENTRY currEntry = moduleList->Flink;
+
+		while (currEntry != moduleList) {
+			// 获取 LDR_DATA_TABLE_ENTRY 结构体
+			PLDR_DATA_TABLE_ENTRY entry = CONTAINING_RECORD(currEntry, LDR_DATA_TABLE_ENTRY, InMemoryOrderLinks);
+
+			// 比较模块名
+			if (RtlCompareUnicodeString(&entry->BaseDllName, &moduleNameUnicode, TRUE) == 0) {
+				// 找到了指定模块
+				moduleBase = entry->DllBase;
+				break;
+			}
+
+			currEntry = currEntry->Flink;
+		}
+
+		// 解锁
+		KeUnstackDetachProcess(&apcState);
+
+		if (moduleBase) {
+			*Module_Base = (ULONG64)moduleBase;
+		}
+		else {
+			status = STATUS_NOT_FOUND;
+		}
+
+		return status;
+	}
 
 	NTSTATUS create(PDEVICE_OBJECT device_object, PIRP irp) {
 		UNREFERENCED_PARAMETER(device_object);
@@ -76,14 +278,20 @@ namespace driver {
 			return status;
 		}
 
+
 		// The target process we want access to.
 		static PEPROCESS target_process = nullptr;
+
 		 
 		const ULONG control_code = stack_irp->Parameters.DeviceIoControl.IoControlCode;
 
 		switch (control_code) {
 		case codes::attach:
 			status = PsLookupProcessByProcessId(request->process_id, &target_process);
+			break;
+
+		case codes::attach2:
+			status = AttachProcess(&target_process);
 			break;
 
 		case codes::read:
@@ -94,6 +302,11 @@ namespace driver {
 		case codes::write:
 			if (target_process != nullptr)
 				status = MmCopyVirtualMemory(PsGetCurrentProcess(), request->buffer, target_process, request->target, request->size, KernelMode, &request->return_size);
+			break;
+
+		case codes::get_moudle:
+			if (target_process != nullptr)
+				status = GetModuleBaseProcess(target_process, reinterpret_cast<LPCWSTR>(request->target), reinterpret_cast<ULONG64*>(request->buffer));
 			break;
 
 		default:
@@ -156,6 +369,14 @@ NTSTATUS driver_main(PDRIVER_OBJECT driver_object, PUNICODE_STRING registry_path
 
 NTSTATUS DriverEntry() {
 	debug_print("[+] HERE IS SOMEONE WHO IS WILL BLOW UP YOUR KERNEL.\n");
+
+	UNICODE_STRING process_by_name = {};
+	RtlInitUnicodeString(&process_by_name, L"PsLookupProcessByProcessName");
+	PsLookupProcessByProcessName = (PsLookupProcessByProcessNamePtr)MmGetSystemRoutineAddress(&process_by_name);
+
+	UNICODE_STRING get_process_peb = {};
+	RtlInitUnicodeString(&get_process_peb, L"PsGetProcessPeb");
+	PsGetProcessPeb = (PsGetProcessPebPtr)MmGetSystemRoutineAddress(&get_process_peb);
 
 	UNICODE_STRING driver_name = {};
 	RtlInitUnicodeString(&driver_name, L"\\Driver\\BabyDriver");

@@ -38,12 +38,12 @@ namespace cheat {
     };
 
 
-	namespace features {
-		constexpr int GLOW = 1 << 0;
-		constexpr int ESP = 1 << 1;
-		constexpr int AIMBOT = 1 << 2;
-		constexpr int NO_FLASH = 1 << 3;
-	}
+	//namespace features {
+	//	constexpr int GLOW = 1 << 0;
+	//	constexpr int ESP = 1 << 1;
+	//	constexpr int AIMBOT = 1 << 2;
+	//	constexpr int NO_FLASH = 1 << 3;
+	//}
 
     class entity {
     public:
@@ -51,175 +51,168 @@ namespace cheat {
         uintptr_t pawn;
     };
 
-	//namespace hotkeys {
-	//	constexpr int MENU = 1 << 0;
-	//	constexpr int PAD_0 = 1 << 1;
-	//	constexpr int PAD_1 = 1 << 2;
-	//	constexpr int PAD_2 = 1 << 3;
-	//	constexpr int PAD_4 = 1 << 4;
-	//	constexpr int PAD_5 = 1 << 5;
-	//	constexpr int PAD_6 = 1 << 6;
-	//	constexpr int PAD_7 = 1 << 7;
-	//	constexpr int PAD_8 = 1 << 8;
-	//}
+    namespace features {
+        constexpr int MENU = 1 << 0;
+        constexpr int ESP = 1 << 1;
+    }
 
-	//class hotkey_data {
-	//public:
-	//	int vk_code;
-	//	int feature_code;
+	class hotkey_data {
+	public:
+		int vk_code;
+		int feature_code;
 
-	//	hotkey_data(const int _vk, const int _feature) : vk_code(_vk), feature_code(_feature) {}
-	//};
+		hotkey_data(const int _vk, const int _feature) : vk_code(_vk), feature_code(_feature) {}
+	};
 
 
-    // 菜单选项类型
-    enum class OptionType { Toggle, Slider };
+    //// 菜单选项类型
+    //enum class OptionType { Toggle, Slider };
 
-    // 菜单选项结构体
-    struct Option {
-        std::string name;
-        OptionType type;
-        bool toggle_value = false;
-        int slider_value = 0;
-        int slider_min = 0;
-        int slider_max = 100;
-    };
+    //// 菜单选项结构体
+    //struct Option {
+    //    std::string name;
+    //    OptionType type;
+    //    bool toggle_value = false;
+    //    int slider_value = 0;
+    //    int slider_min = 0;
+    //    int slider_max = 100;
+    //};
 
-    // 菜单栏结构体
-    struct MenuBar {
-        std::string name;
-        std::vector<Option> options;
-    };
+    //// 菜单栏结构体
+    //struct MenuBar {
+    //    std::string name;
+    //    std::vector<Option> options;
+    //};
 
-    // 菜单管理类
-    class MenuManager {
-    public:
-        MenuManager() : menu_bars({{ "Main Menu", {
-                {"Toggle Option", OptionType::Toggle, true},
-                {"Slider Option", OptionType::Slider, false, 50, 0, 100}
-            } } }) {}
+    //// 菜单管理类
+    //class MenuManager {
+    //public:
+    //    MenuManager() : menu_bars({{ "Main Menu", {
+    //            {"Toggle Option", OptionType::Toggle, true},
+    //            {"Slider Option", OptionType::Slider, false, 50, 0, 100}
+    //        } } }) {}
 
-        void process_input() {
-            // 检测按键状态
-            check_key_state(VK_ADD, [this]() { menu_enabled = !menu_enabled; });
-            check_key_state(VK_NUMPAD7, [this]() { change_menu_bar(-1); });
-            check_key_state(VK_NUMPAD1, [this]() { change_menu_bar(1); });
-            check_key_state(VK_NUMPAD8, [this]() { change_option(-1); });
-            check_key_state(VK_NUMPAD2, [this]() { change_option(1); });
-            check_key_state(VK_NUMPAD4, [this]() { change_slider_value(-1); });
-            check_key_state(VK_NUMPAD6, [this]() { change_slider_value(1); });
-            check_key_state(VK_NUMPAD5, [this]() { toggle_option(); });
-        }
+    //    void process_input() {
+    //        // 检测按键状态
+    //        check_key_state(VK_ADD, [this]() { menu_enabled = !menu_enabled; });
+    //        check_key_state(VK_NUMPAD7, [this]() { change_menu_bar(-1); });
+    //        check_key_state(VK_NUMPAD1, [this]() { change_menu_bar(1); });
+    //        check_key_state(VK_NUMPAD8, [this]() { change_option(-1); });
+    //        check_key_state(VK_NUMPAD2, [this]() { change_option(1); });
+    //        check_key_state(VK_NUMPAD4, [this]() { change_slider_value(-1); });
+    //        check_key_state(VK_NUMPAD6, [this]() { change_slider_value(1); });
+    //        check_key_state(VK_NUMPAD5, [this]() { toggle_option(); });
+    //    }
 
-        // 获取指定菜单栏中指定选项的开关值
-        const bool get_toggle_value(size_t menu_bar_index, size_t option_index) {
-            return get_option(menu_bar_index, option_index).toggle_value;
-        }
+    //    // 获取指定菜单栏中指定选项的开关值
+    //    const bool get_toggle_value(size_t menu_bar_index, size_t option_index) {
+    //        return get_option(menu_bar_index, option_index).toggle_value;
+    //    }
 
-        // 设置指定菜单栏中指定选项的开关值
-        void set_toggle_value(size_t menu_bar_index, size_t option_index, bool value) {
-            Option& option = get_option(menu_bar_index, option_index);
-            if (option.type != OptionType::Toggle) {
-                throw std::invalid_argument("Option type is not Toggle");
-            }
-            option.toggle_value = value;
-        }
+    //    // 设置指定菜单栏中指定选项的开关值
+    //    void set_toggle_value(size_t menu_bar_index, size_t option_index, bool value) {
+    //        Option& option = get_option(menu_bar_index, option_index);
+    //        if (option.type != OptionType::Toggle) {
+    //            throw std::invalid_argument("Option type is not Toggle");
+    //        }
+    //        option.toggle_value = value;
+    //    }
 
-        // 获取指定菜单栏中指定选项的滑条值
-        const int get_slider_value(size_t menu_bar_index, size_t option_index) {
-            return get_option(menu_bar_index, option_index).slider_value;
-        }
+    //    // 获取指定菜单栏中指定选项的滑条值
+    //    const int get_slider_value(size_t menu_bar_index, size_t option_index) {
+    //        return get_option(menu_bar_index, option_index).slider_value;
+    //    }
 
-        // 设置指定菜单栏中指定选项的滑条值
-        void set_slider_value(size_t menu_bar_index, size_t option_index, int value) {
-            Option& option = get_option(menu_bar_index, option_index);
-            if (option.type != OptionType::Slider) {
-                throw std::invalid_argument("Option type is not Slider");
-            }
-            if (value < option.slider_min) {
-                option.slider_value = option.slider_min;
-            }
-            else if (value > option.slider_max) {
-                option.slider_value = option.slider_max;
-            }
-            else {
-                option.slider_value = value;
-            }
-        }
+    //    // 设置指定菜单栏中指定选项的滑条值
+    //    void set_slider_value(size_t menu_bar_index, size_t option_index, int value) {
+    //        Option& option = get_option(menu_bar_index, option_index);
+    //        if (option.type != OptionType::Slider) {
+    //            throw std::invalid_argument("Option type is not Slider");
+    //        }
+    //        if (value < option.slider_min) {
+    //            option.slider_value = option.slider_min;
+    //        }
+    //        else if (value > option.slider_max) {
+    //            option.slider_value = option.slider_max;
+    //        }
+    //        else {
+    //            option.slider_value = value;
+    //        }
+    //    }
 
-        // 获取整个菜单信息的只可读引用
-        const std::vector<MenuBar>& get_menu() {
-            return menu_bars;
-        }
+    //    // 获取整个菜单信息的只可读引用
+    //    const std::vector<MenuBar>& get_menu() {
+    //        return menu_bars;
+    //    }
 
-    private:
-        std::vector<MenuBar> menu_bars;
-        bool menu_enabled = false;
-        int current_menu_bar = 0;
-        int current_option = 0;
-        std::unordered_set<int> key_states; // 记录按键状态
+    //private:
+    //    std::vector<MenuBar> menu_bars;
+    //    bool menu_enabled = false;
+    //    int current_menu_bar = 0;
+    //    int current_option = 0;
+    //    std::unordered_set<int> key_states; // 记录按键状态
 
-        // 获取指定菜单栏中指定选项的引用
-        Option& get_option(size_t menu_bar_index, size_t option_index) {
-            if (menu_bar_index >= menu_bars.size()) {
-                throw std::out_of_range("Invalid menu bar index");
-            }
-            MenuBar& menu_bar = menu_bars[menu_bar_index];
-            if (option_index >= menu_bar.options.size()) {
-                throw std::out_of_range("Invalid option index");
-            }
-            return menu_bars[menu_bar_index].options[option_index];
-        }
+    //    // 获取指定菜单栏中指定选项的引用
+    //    Option& get_option(size_t menu_bar_index, size_t option_index) {
+    //        if (menu_bar_index >= menu_bars.size()) {
+    //            throw std::out_of_range("Invalid menu bar index");
+    //        }
+    //        MenuBar& menu_bar = menu_bars[menu_bar_index];
+    //        if (option_index >= menu_bar.options.size()) {
+    //            throw std::out_of_range("Invalid option index");
+    //        }
+    //        return menu_bars[menu_bar_index].options[option_index];
+    //    }
 
-        void change_menu_bar(int offset) {
-            int new_index = (current_menu_bar + offset) % menu_bars.size();
-            new_index = (new_index + menu_bars.size()) % menu_bars.size();
-            current_menu_bar = new_index;
-            current_option = 0;
-        }
+    //    void change_menu_bar(int offset) {
+    //        int new_index = (current_menu_bar + offset) % menu_bars.size();
+    //        new_index = (new_index + menu_bars.size()) % menu_bars.size();
+    //        current_menu_bar = new_index;
+    //        current_option = 0;
+    //    }
 
-        void change_option(int offset) {
-            MenuBar& menu_bar = menu_bars[current_menu_bar];
-            int new_index = (current_option + offset) % menu_bar.options.size();
-            new_index = (new_index + menu_bar.options.size()) % menu_bar.options.size();
-            current_option = new_index;
-        }
+    //    void change_option(int offset) {
+    //        MenuBar& menu_bar = menu_bars[current_menu_bar];
+    //        int new_index = (current_option + offset) % menu_bar.options.size();
+    //        new_index = (new_index + menu_bar.options.size()) % menu_bar.options.size();
+    //        current_option = new_index;
+    //    }
 
-        void change_slider_value(int offset) {
-            Option& option = menu_bars[current_menu_bar].options[current_option];
-            if (option.type == OptionType::Slider) {
-                int new_value = option.slider_value + offset;
-                if (new_value < option.slider_min) {
-                    option.slider_value = option.slider_min;
-                }
-                else if (new_value > option.slider_max) {
-                    option.slider_value = option.slider_max;
-                }
-                else {
-                    option.slider_value = new_value;
-                }
-            }
-        }
+    //    void change_slider_value(int offset) {
+    //        Option& option = menu_bars[current_menu_bar].options[current_option];
+    //        if (option.type == OptionType::Slider) {
+    //            int new_value = option.slider_value + offset;
+    //            if (new_value < option.slider_min) {
+    //                option.slider_value = option.slider_min;
+    //            }
+    //            else if (new_value > option.slider_max) {
+    //                option.slider_value = option.slider_max;
+    //            }
+    //            else {
+    //                option.slider_value = new_value;
+    //            }
+    //        }
+    //    }
 
-        void toggle_option() {
-            Option& option = menu_bars[current_menu_bar].options[current_option];
-            if (option.type == OptionType::Toggle) {
-                option.toggle_value = !option.toggle_value;
-            }
-        }
+    //    void toggle_option() {
+    //        Option& option = menu_bars[current_menu_bar].options[current_option];
+    //        if (option.type == OptionType::Toggle) {
+    //            option.toggle_value = !option.toggle_value;
+    //        }
+    //    }
 
-        void check_key_state(int key, const std::function<void()>& action) {
-            if (GetAsyncKeyState(key) & 0x8000) {
-                if (key_states.count(key) == 0) {
-                    key_states.insert(key);
-                    action();
-                }
-            }
-            else {
-                key_states.erase(key);
-            }
-        }
-    };
+    //    void check_key_state(int key, const std::function<void()>& action) {
+    //        if (GetAsyncKeyState(key) & 0x8000) {
+    //            if (key_states.count(key) == 0) {
+    //                key_states.insert(key);
+    //                action();
+    //            }
+    //        }
+    //        else {
+    //            key_states.erase(key);
+    //        }
+    //    }
+    //};
 
 
 	class Cheat : public driver::Driver {
@@ -232,15 +225,14 @@ namespace cheat {
 
 	private:
 		overlay::Overlay* overlay;
-		//const std::array<const hotkey_data, 9> hotkeys;
+        const std::array<const hotkey_data, 2> hotkeys;
 
 		const float screen_size_x;
 		const float screen_size_y;
 		const float menu_render_y;
 
 		int feature;
-		//int feature_hotkey;
-		//int hotkey_pushed;
+		int hotkey_pushed;
 
         uintptr_t client_dll;
 

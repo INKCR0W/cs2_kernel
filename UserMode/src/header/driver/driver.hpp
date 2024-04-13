@@ -10,6 +10,9 @@ namespace driver {
 		constexpr ULONG attach =
 			CTL_CODE(FILE_DEVICE_UNKNOWN, 0x676, METHOD_BUFFERED, FILE_SPECIAL_ACCESS);
 
+		constexpr ULONG attach2 =
+			CTL_CODE(FILE_DEVICE_UNKNOWN, 0x677, METHOD_BUFFERED, FILE_SPECIAL_ACCESS);
+
 		// Read process memory.
 		constexpr ULONG read =
 			CTL_CODE(FILE_DEVICE_UNKNOWN, 0x678, METHOD_BUFFERED, FILE_SPECIAL_ACCESS);
@@ -17,6 +20,9 @@ namespace driver {
 		// Write process memory.
 		constexpr ULONG write =
 			CTL_CODE(FILE_DEVICE_UNKNOWN, 0x679, METHOD_BUFFERED, FILE_SPECIAL_ACCESS);
+
+		constexpr ULONG get_moudle =
+			CTL_CODE(FILE_DEVICE_UNKNOWN, 0x680, METHOD_BUFFERED, FILE_SPECIAL_ACCESS);
 	}  // namespace codes
 
 	// Shared between user mode & kernel mode.
@@ -65,6 +71,8 @@ namespace driver {
 		bool attach(const wchar_t* process_name);
 		// 附加到目标进程，传入进程ID
 		bool attach(const DWORD pid);
+		// 附加到CS2进程，无参数
+		bool attach2();
 
 		// 返回驱动句柄
 		const HANDLE _driver() const;
