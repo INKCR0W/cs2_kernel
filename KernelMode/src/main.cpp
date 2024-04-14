@@ -481,14 +481,11 @@ namespace driver {
 		KAPC_STATE ApcState;
 		PEPROCESS EProcess = IoGetCurrentProcess();
 
-		// 附加到目标进程
 		KeStackAttachProcess(Process, &ApcState);
 
-		// 获取进程环境块(PEB)
 		PPEB Peb = PsGetProcessPeb(Process);
 		if (Peb)
 		{
-			// 遍历Ldr链表
 			for (PLIST_ENTRY ListEntry = Peb->Ldr->InMemoryOrderModuleList.Flink;
 				ListEntry != &Peb->Ldr->InMemoryOrderModuleList;
 				ListEntry = ListEntry->Flink)
@@ -496,7 +493,6 @@ namespace driver {
 				PLDR_DATA_TABLE_ENTRY LdrEntry = CONTAINING_RECORD(ListEntry, LDR_DATA_TABLE_ENTRY, InMemoryOrderLinks);
 				if (_wcsicmp(LdrEntry->BaseDllName.Buffer, ModuleName) == 0)
 				{
-					// 找到模块
 					*Module_Base = reinterpret_cast<ULONG64>(LdrEntry->DllBase);
 					break;
 				}
@@ -507,7 +503,6 @@ namespace driver {
 			Status = STATUS_UNSUCCESSFUL;
 		}
 
-		// 分离进程
 		KeUnstackDetachProcess(&ApcState);
 
 		return Status;
