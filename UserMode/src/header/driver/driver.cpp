@@ -60,8 +60,8 @@ namespace driver {
 			return;
 		}
 
-		//this->attach(pid);
-		this->attach2();
+		this->attach(pid);
+		//this->attach2();
 	}
 
 	Driver::~Driver() {
