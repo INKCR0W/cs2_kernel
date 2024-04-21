@@ -45,7 +45,7 @@ namespace overlay {
 		void draw_box(const D2D1_RECT_F& rect, const int color) const;
 		void draw_circle(const float x, const float y, const float r, const int color) const;
 
-		//const HWND window() const;
+		const HWND window() const;
 
 
 	private:

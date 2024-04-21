@@ -1,5 +1,5 @@
 // Generated using https://github.com/a2x/cs2-dumper
-// 2024-04-08 05:29:25.250783600 UTC
+// 2024-04-20 02:59:46.038810800 UTC
 
 #pragma once
 
@@ -2338,8 +2338,8 @@ namespace cs2_dumper {
                 constexpr std::ptrdiff_t m_CommandContext = 0x560; // C_CommandContext
                 constexpr std::ptrdiff_t m_nInButtonsWhichAreToggles = 0x5F8; // uint64
                 constexpr std::ptrdiff_t m_nTickBase = 0x600; // uint32
-                constexpr std::ptrdiff_t m_hPawn = 0x604; // 
-                constexpr std::ptrdiff_t m_hPredictedPawn = 0x608; // 
+                constexpr std::ptrdiff_t m_hPawn = 0x604; // CHandle<C_BasePlayerPawn>
+                constexpr std::ptrdiff_t m_hPredictedPawn = 0x608; // CHandle<C_BasePlayerPawn>
                 constexpr std::ptrdiff_t m_nSplitScreenSlot = 0x60C; // CSplitScreenSlot
                 constexpr std::ptrdiff_t m_hSplitOwner = 0x610; // CHandle<CBasePlayerController>
                 constexpr std::ptrdiff_t m_hSplitScreenPlayers = 0x618; // CUtlVector<CHandle<CBasePlayerController>>
@@ -5735,7 +5735,7 @@ namespace cs2_dumper {
                 constexpr std::ptrdiff_t m_explosionCustomEffect = 0xFF8; // CUtlSymbolLarge
                 constexpr std::ptrdiff_t m_explosionCustomSound = 0x1000; // CUtlSymbolLarge
                 constexpr std::ptrdiff_t m_explosionModifier = 0x1008; // CUtlSymbolLarge
-                constexpr std::ptrdiff_t m_hPhysicsAttacker = 0x1010; // 
+                constexpr std::ptrdiff_t m_hPhysicsAttacker = 0x1010; // CHandle<C_BasePlayerPawn>
                 constexpr std::ptrdiff_t m_flLastPhysicsInfluenceTime = 0x1014; // GameTime_t
                 constexpr std::ptrdiff_t m_flDefaultFadeScale = 0x1018; // float32
                 constexpr std::ptrdiff_t m_hLastAttacker = 0x101C; // CHandle<C_BaseEntity>

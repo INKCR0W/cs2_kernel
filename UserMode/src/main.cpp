@@ -38,7 +38,7 @@ using namespace cs2_dumper;
 int main() {
 	cheat::Cheat* myCheat = new cheat::Cheat;
 
-	//myCheat->run();
+	myCheat->run();
 
 	delete myCheat;
 	std::cout << "[*] Program stopped.\n";

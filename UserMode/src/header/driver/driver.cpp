@@ -61,7 +61,7 @@ namespace driver {
 		}
 
 		this->attach(pid);
-		//this->attach2();
+		// this->attach2();
 	}
 
 	Driver::~Driver() {
@@ -98,7 +98,14 @@ namespace driver {
 	}
 
 	bool Driver::attach2() {
-		this->attached = DeviceIoControl(this->driver_handle, codes::attach2, nullptr, 0, nullptr, 0, nullptr, nullptr);
+		Request r = {
+			0,
+			nullptr,
+			nullptr,
+			0,
+			0
+		};
+		this->attached = DeviceIoControl(this->driver_handle, codes::attach2, &r, sizeof(r), &r, sizeof(r), nullptr, nullptr);
 
 		return this->attached;
 	}
@@ -121,26 +128,28 @@ namespace driver {
 
 
 	const std::uintptr_t Driver::get_module_base(const wchar_t* module_name) const {
-		//if (this->pid == 0)
-		//	return module_base;
+		std::uintptr_t module_base = 0;
 
-		//const HANDLE snap_shot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, this->pid);
-		//if (snap_shot == INVALID_HANDLE_VALUE)
-		//	return module_base;
+		if (this->pid == 0)
+			return module_base;
 
-		//MODULEENTRY32 entry = {};
-		//entry.dwSize = sizeof(decltype(entry));
+		const HANDLE snap_shot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, this->pid);
+		if (snap_shot == INVALID_HANDLE_VALUE)
+			return module_base;
 
-		//if (Module32First(snap_shot, &entry)) {
-		//	do {
-		//		if (wcsstr(module_name, entry.szModule) != nullptr) {
-		//			module_base = reinterpret_cast<std::uintptr_t>(entry.modBaseAddr);
-		//			break;
-		//		}
-		//	} while (Module32Next(snap_shot, &entry));
-		//}
+		MODULEENTRY32 entry = {};
+		entry.dwSize = sizeof(decltype(entry));
 
-		//CloseHandle(snap_shot);
+		if (Module32First(snap_shot, &entry)) {
+			do {
+				if (wcsstr(module_name, entry.szModule) != nullptr) {
+					module_base = reinterpret_cast<std::uintptr_t>(entry.modBaseAddr);
+					break;
+				}
+			} while (Module32Next(snap_shot, &entry));
+		}
+
+		CloseHandle(snap_shot);
 
 		//struct Request {
 		//	HANDLE process_id;
@@ -152,21 +161,21 @@ namespace driver {
 		//	SIZE_T return_size;
 		//};
 
-		// GetModuleBaseProcess(target_process, reinterpret_cast<LPCWSTR>(request->target), reinterpret_cast<ULONG64*>(request->buffer));
+		 //GetModuleBaseProcess(target_process, reinterpret_cast<LPCWSTR>(request->target), reinterpret_cast<ULONG64*>(request->buffer));
 
-		std::uintptr_t module_base = 0;
+		//std::uintptr_t module_base = 0;
 
-		Request r = {
-			0,
-			reinterpret_cast<void*>(const_cast<wchar_t*>(module_name)),
-			&module_base,
-			0,
-			0
-		};
+		//Request r = {
+		//	0,
+		//	reinterpret_cast<void*>(const_cast<wchar_t*>(module_name)),
+		//	&module_base,
+		//	0,
+		//	0
+		//};
 
-		bool status = DeviceIoControl(this->driver_handle, codes::attach, &r, sizeof(r), &r, sizeof(r), nullptr, nullptr);
+		//bool status = DeviceIoControl(this->driver_handle, codes::attach, &r, sizeof(r), &r, sizeof(r), nullptr, nullptr);
 
-		std::cout << module_base << std::endl;
+		//std::cout << module_base << std::endl;
 
 		return module_base;
 	}

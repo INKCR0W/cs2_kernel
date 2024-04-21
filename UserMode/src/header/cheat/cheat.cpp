@@ -8,10 +8,10 @@ namespace cheat {
 	Cheat::Cheat() : Driver(L"\\\\.\\BabyDriver", L"cs2.exe"), overlay(new overlay::Overlay()),
 		screen_size_x(static_cast<float>(GetSystemMetrics(SM_CXSCREEN))), screen_size_y(static_cast<float>(GetSystemMetrics(SM_CYSCREEN))),
 		menu_render_y(screen_size_y / 3), client_dll(0), in_match(false), local_player_pawn(0), local_player_controller(0), entity_list({}),
-		feature(1 << features::MENU), hotkey_pushed(0), 
+		feature(features::MENU), hotkey_pushed(0), 
 		hotkeys({
 		hotkey_data({VK_INSERT, features::MENU}),
-		hotkey_data({VK_F1, features::ESP})
+		hotkey_data({VK_XBUTTON1, features::ESP})
 			})
 	{
 		std::cout
@@ -97,15 +97,20 @@ namespace cheat {
 			if (GetAsyncKeyState(VK_DELETE))
 				break;
 
-			//if (overlay->window() != GetForegroundWindow()) {
-			//	overlay->clear_screen();
-			//	continue;
-			//}
+			if (overlay->window() != GetForegroundWindow()) {
+				overlay->clear_screen();
+				continue;
+			}
+
+			update_entity();
 
 			overlay->begin_scene();
 			overlay->clear_scene();
 
 			menu();
+
+			if (feature & features::ESP)
+				esp();
 
 			overlay->end_scene();
 		}

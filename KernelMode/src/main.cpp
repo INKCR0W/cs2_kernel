@@ -1,5 +1,6 @@
 #include <ntifs.h>
 #include <wdm.h>
+#include <stdio.h>
 
 typedef unsigned char BYTE;
 
@@ -370,14 +371,19 @@ namespace driver {
 		PEPROCESS Process = NULL;
 		HANDLE process_id = 0;
 
+		debug_print("\n1");
+
 		if (PsLookupProcessByProcessName)
 		{
+			debug_print("\n2");
 			UNICODE_STRING game_process_name = {};
-			RtlInitUnicodeString(&game_process_name, L"cs2.exe");
+			RtlInitUnicodeString(&game_process_name, L"notepad.exe");
 			Status = PsLookupProcessByProcessName(&game_process_name, &Process);
+			debug_print("\n3");
 			if (NT_SUCCESS(Status))
 			{
 				process_id = PsGetProcessId(Process);
+				debug_print("\n4");
 				ObDereferenceObject(Process);
 			}
 		}
@@ -386,6 +392,10 @@ namespace driver {
 		{
 			return Status;
 		}
+
+		char buffer[20];
+		sprintf_s(buffer, sizeof(buffer), "%p", process_id);
+		debug_print(buffer);
 
 		return PsLookupProcessByProcessId(process_id, target_process);
 	}
@@ -479,7 +489,6 @@ namespace driver {
 
 		NTSTATUS Status = STATUS_SUCCESS;
 		KAPC_STATE ApcState;
-		PEPROCESS EProcess = IoGetCurrentProcess();
 
 		KeStackAttachProcess(Process, &ApcState);
 
@@ -555,6 +564,7 @@ namespace driver {
 			break;
 
 		case codes::attach2:
+			debug_print("22222");
 			status = AttachProcess(&target_process);
 			break;
 

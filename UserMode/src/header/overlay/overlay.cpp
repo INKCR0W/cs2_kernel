@@ -17,11 +17,11 @@ namespace overlay {
 			return false;
 		}
 
-		//cs2_window = FindWindowA("SDL_app", "Counter-Strike 2");
-		//if (!cs2_window) {
-		//	cerr << "[-] Failed to find CS2 Window\n";
-		//	return false;
-		//}
+		cs2_window = FindWindowA("SDL_app", "Counter-Strike 2");
+		if (!cs2_window) {
+			cerr << "[-] Failed to find CS2 Window\n";
+			return false;
+		}
 
 
 		// set window style
@@ -224,7 +224,7 @@ namespace overlay {
 		target->DrawEllipse(ellipse, brush_arr[color]);
 	}
 
-	//const HWND Overlay::window() const {
-	//	return cs2_window;
-	//}
+	const HWND Overlay::window() const {
+		return cs2_window;
+	}
 }
