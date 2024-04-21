@@ -10,14 +10,16 @@ extern "C" {
 	NTKERNELAPI NTSTATUS MmCopyVirtualMemory(PEPROCESS SourceProcess, PVOID SourceAddress, PEPROCESS TargetProcess, PVOID TargetAddress,
 											 SIZE_T BufferSize, KPROCESSOR_MODE PreviousMode, PSIZE_T ReturnSize);
 
-	//NTKERNELAPI PPEB NTAPI PsGetProcessPeb(IN PEPROCESS Process);
-	NTKERNELAPI PVOID PsGetProcessSectionBaseAddress(IN PEPROCESS Process);
-	NTKERNELAPI PVOID NTAPI PsGetProcessWow64Process(IN PEPROCESS Process);
+	NTKERNELAPI NTSTATUS PsLookupProcessByProcessName(PUNICODE_STRING ProcessName, PEPROCESS* Process);
 
-	typedef NTSTATUS(*PsLookupProcessByProcessNamePtr)(IN PUNICODE_STRING ProcessName, OUT PEPROCESS* Process);
-	typedef PPEB(*PsGetProcessPebPtr)(IN PEPROCESS Process);
+	NTKERNELAPI PPEB PsGetProcessPeb(PEPROCESS Process);
+	// NTKERNELAPI PVOID PsGetProcessSectionBaseAddress(IN PEPROCESS Process);
+	// NTKERNELAPI PVOID NTAPI PsGetProcessWow64Process(IN PEPROCESS Process);
 
-	typedef void(__stdcall* PPS_POST_PROCESS_INIT_ROUTINE)(void);
+	//typedef NTSTATUS(*PsLookupProcessByProcessNamePtr)(IN PUNICODE_STRING ProcessName, OUT PEPROCESS* Process);
+	//typedef PPEB(*PsGetProcessPebPtr)(IN PEPROCESS Process);
+
+	// typedef void(__stdcall* PPS_POST_PROCESS_INIT_ROUTINE)(void);
 }
 
 
@@ -318,8 +320,8 @@ typedef struct _LDR_DATA_TABLE_ENTRY
 
 
 
-PsLookupProcessByProcessNamePtr PsLookupProcessByProcessName = NULL;
-PsGetProcessPebPtr PsGetProcessPeb = NULL;
+// PsLookupProcessByProcessNamePtr PsLookupProcessByProcessName = NULL;
+// PsGetProcessPebPtr PsGetProcessPeb = NULL;
 
 
 
@@ -644,13 +646,13 @@ NTSTATUS driver_main(PDRIVER_OBJECT driver_object, PUNICODE_STRING registry_path
 NTSTATUS DriverEntry() {
 	debug_print("[+] HERE IS SOMEONE WHO IS WILL BLOW UP YOUR KERNEL.\n");
 
-	UNICODE_STRING process_by_name = {};
-	RtlInitUnicodeString(&process_by_name, L"PsLookupProcessByProcessName");
-	PsLookupProcessByProcessName = (PsLookupProcessByProcessNamePtr)MmGetSystemRoutineAddress(&process_by_name);
+	//UNICODE_STRING process_by_name = {};
+	//RtlInitUnicodeString(&process_by_name, L"PsLookupProcessByProcessName");
+	//PsLookupProcessByProcessName = (PsLookupProcessByProcessNamePtr)MmGetSystemRoutineAddress(&process_by_name);
 
-	UNICODE_STRING get_process_peb = {};
-	RtlInitUnicodeString(&get_process_peb, L"PsGetProcessPeb");
-	PsGetProcessPeb = (PsGetProcessPebPtr)MmGetSystemRoutineAddress(&get_process_peb);
+	//UNICODE_STRING get_process_peb = {};
+	//RtlInitUnicodeString(&get_process_peb, L"PsGetProcessPeb");
+	//PsGetProcessPeb = (PsGetProcessPebPtr)MmGetSystemRoutineAddress(&get_process_peb);
 
 	UNICODE_STRING driver_name = {};
 	RtlInitUnicodeString(&driver_name, L"\\Driver\\BabyDriver");
