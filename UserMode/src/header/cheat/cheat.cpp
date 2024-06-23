@@ -43,7 +43,7 @@ namespace cheat {
 			exit(1);
 		}
 
-		std::cout << "[+] Overlay initialization successful, CS2 window : 0x" << std::hex << std::uppercase << overlay->window() << "\n";
+		// std::cout << "[+] Overlay initialization successful, CS2 window : 0x" << std::hex << std::uppercase << overlay->window() << "\n";
 
 		std::cout << "[+] All the shit is done, press DELETE to stop the program.\n";
 	}

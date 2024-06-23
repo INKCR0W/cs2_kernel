@@ -17,11 +17,11 @@ namespace overlay {
 			return false;
 		}
 
-		cs2_window = FindWindowA("SDL_app", "Counter-Strike 2");
-		if (!cs2_window) {
-			cerr << "[-] Failed to find CS2 Window\n";
-			return false;
-		}
+		//cs2_window = FindWindowA("SDL_app", "Counter-Strike 2");
+		//if (!cs2_window) {
+		//	cerr << "[-] Failed to find CS2 Window\n";
+		//	return false;
+		//}
 
 
 		// set window style
