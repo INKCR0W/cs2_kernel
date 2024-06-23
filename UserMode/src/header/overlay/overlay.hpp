@@ -2,7 +2,6 @@
 
 #include <string>
 #include <array>
-#include <d2d1.h>
 #include <Windows.h>
 #include <dwmapi.h> 
 #include <d2d1.h>

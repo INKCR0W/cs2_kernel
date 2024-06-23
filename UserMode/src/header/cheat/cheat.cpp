@@ -43,7 +43,7 @@ namespace cheat {
 			exit(1);
 		}
 
-		//std::cout << "[+] Overlay initialization successful, CS2 window : 0x" << std::hex << std::uppercase << overlay->window() << "\n";
+		std::cout << "[+] Overlay initialization successful, CS2 window : 0x" << std::hex << std::uppercase << overlay->window() << "\n";
 
 		std::cout << "[+] All the shit is done, press DELETE to stop the program.\n";
 	}
@@ -92,15 +92,15 @@ namespace cheat {
 
 	void Cheat::render() {
 		while (true) {
-			std::this_thread::sleep_for(std::chrono::milliseconds(10));
+			std::this_thread::sleep_for(std::chrono::milliseconds(15));
 
 			if (GetAsyncKeyState(VK_DELETE))
 				break;
 
-			if (overlay->window() != GetForegroundWindow()) {
-				overlay->clear_screen();
-				continue;
-			}
+			//if (overlay->window() != GetForegroundWindow()) {
+			//	overlay->clear_screen();
+			//	continue;
+			//}
 
 			update_entity();
 
@@ -108,7 +108,6 @@ namespace cheat {
 			overlay->clear_scene();
 
 			menu();
-
 			if (feature & features::ESP)
 				esp();
 

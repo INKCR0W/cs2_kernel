@@ -64,7 +64,7 @@ namespace overlay {
 
 	const bool Overlay::init_d2d() {
 		HRESULT ret = 0;
-		RECT rc = {};
+
 		ret = D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &d2d_factory);
 
 		if (FAILED(ret)) {
@@ -82,7 +82,24 @@ namespace overlay {
 
 		write_factory->CreateTextFormat(L"Microsoft YaHei", NULL, DWRITE_FONT_WEIGHT_REGULAR, DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL, 13.f, L"zh", &text_format);
 
+		RECT rc = {};
+
 		GetClientRect(overlay_window, &rc);
+
+		//D2D1_RENDER_TARGET_PROPERTIES rtProps = D2D1::RenderTargetProperties(
+		//	D2D1_RENDER_TARGET_TYPE_HARDWARE,
+		//	D2D1::PixelFormat(DXGI_FORMAT_B8G8R8A8_UNORM, D2D1_ALPHA_MODE_PREMULTIPLIED)
+		//);
+
+		//ret = d2d_factory->CreateHwndRenderTarget(
+		//	rtProps,
+		//	D2D1::HwndRenderTargetProperties(
+		//		overlay_window,
+		//		D2D1::SizeU(rc.right - rc.left, rc.bottom - rc.top),
+		//		D2D1_PRESENT_OPTIONS_IMMEDIATELY
+		//	),
+		//	&target
+		//);
 
 		ret = d2d_factory->CreateHwndRenderTarget(D2D1::RenderTargetProperties(D2D1_RENDER_TARGET_TYPE_DEFAULT,
 			D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED)),
