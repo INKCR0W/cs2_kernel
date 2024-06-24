@@ -247,6 +247,7 @@ namespace cheat {
         void esp();
 
         void render();
+        void aimbot();
 
 
         Vec2 world_to_screen(view_matrix_t matrix, Vec3 position) const;

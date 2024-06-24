@@ -40,10 +40,10 @@ namespace cheat {
 					Vec2 previous_screen_pos = world_to_screen(view_matrix, previous);
 
 					if (current_screen_pos.x > 0.f) {
-						left = left > current_screen_pos.x ? current_screen_pos.x : left;
+						//left = left > current_screen_pos.x ? current_screen_pos.x : left;
 						right = right < current_screen_pos.x ? current_screen_pos.x : right;
 						top = top > current_screen_pos.y ? current_screen_pos.y : top;
-						bottom = bottom < current_screen_pos.y ? current_screen_pos.y : bottom;
+						//bottom = bottom < current_screen_pos.y ? current_screen_pos.y : bottom;
 					}
 
 					if (current_screen_pos.x > 0.f && previous_screen_pos.x > 0.f)
@@ -53,8 +53,9 @@ namespace cheat {
 				}
 			}
 
-			if (bottom != -1.f) {
-				overlay->draw_box((left + right) / 2, (top + bottom) / 2, right - left, bottom - top, overlay::colors::red);
+			if (top != -1.f) {
+				/*overlay->draw_box((left + right) / 2, (top + bottom) / 2, right - left, bottom - top, overlay::colors::red);*/
+				overlay->draw_text(right, top, overlay::colors::red, std::to_string(read_memory<int>(current_entity.pawn + schemas::client_dll::C_BaseEntity::m_iHealth)));
 			}
 		}
 

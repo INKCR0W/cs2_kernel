@@ -92,7 +92,7 @@ namespace cheat {
 
 	void Cheat::render() {
 		while (true) {
-			std::this_thread::sleep_for(std::chrono::milliseconds(15));
+			std::this_thread::sleep_for(std::chrono::milliseconds(15)); // 
 
 			if (GetAsyncKeyState(VK_DELETE))
 				break;
@@ -115,10 +115,16 @@ namespace cheat {
 		}
 	}
 
+	void Cheat::aimbot() {
+
+	}
+
 	bool Cheat::run() {
 		std::thread t_render(&Cheat::render, this);
+		std::thread t_aimbot(&Cheat::aimbot, this);
 
 		t_render.join();
+		t_aimbot.join();
 
 		return true;
 	}
