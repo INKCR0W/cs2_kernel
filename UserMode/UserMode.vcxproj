@@ -151,9 +151,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\header\cheat\cheat.hpp" />
+    <ClInclude Include="src\header\offset\client_dll.hpp" />
     <ClInclude Include="src\header\offset\offset.hpp" />
     <ClInclude Include="src\header\offset\buttons.hpp" />
-    <ClInclude Include="src\header\offset\client.dll.hpp" />
     <ClInclude Include="src\header\driver\driver.hpp" />
     <ClInclude Include="src\header\offset\offsets.hpp" />
     <ClInclude Include="src\header\overlay\overlay.hpp" />

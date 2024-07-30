@@ -38,9 +38,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\header\offset\client.dll.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="src\header\offset\offsets.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -60,6 +57,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\header\overlay\overlay.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\header\offset\client_dll.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
