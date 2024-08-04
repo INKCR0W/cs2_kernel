@@ -10,6 +10,10 @@
 #include "../overlay/overlay.hpp"
 #include "../util/structs.hpp"
 
+#include "../overlay/ImGui/imgui.h"
+#include "../overlay/ImGui/imgui_impl_dx11.h"
+#include "../overlay/ImGui/imgui_impl_win32.h"
+
 namespace cheat {
     enum bones : int {
         head = 6,

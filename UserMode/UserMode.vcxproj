@@ -146,6 +146,12 @@
     <ClCompile Include="src\header\cheat\features\game.cpp" />
     <ClCompile Include="src\header\cheat\features\menu.cpp" />
     <ClCompile Include="src\header\driver\driver.cpp" />
+    <ClCompile Include="src\header\overlay\ImGui\imgui.cpp" />
+    <ClCompile Include="src\header\overlay\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="src\header\overlay\ImGui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="src\header\overlay\ImGui\imgui_impl_win32.cpp" />
+    <ClCompile Include="src\header\overlay\ImGui\imgui_tables.cpp" />
+    <ClCompile Include="src\header\overlay\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="src\header\overlay\overlay.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
@@ -156,6 +162,14 @@
     <ClInclude Include="src\header\offset\buttons.hpp" />
     <ClInclude Include="src\header\driver\driver.hpp" />
     <ClInclude Include="src\header\offset\offsets.hpp" />
+    <ClInclude Include="src\header\overlay\ImGui\imconfig.h" />
+    <ClInclude Include="src\header\overlay\ImGui\imgui.h" />
+    <ClInclude Include="src\header\overlay\ImGui\imgui_impl_dx11.h" />
+    <ClInclude Include="src\header\overlay\ImGui\imgui_impl_win32.h" />
+    <ClInclude Include="src\header\overlay\ImGui\imgui_internal.h" />
+    <ClInclude Include="src\header\overlay\ImGui\imstb_rectpack.h" />
+    <ClInclude Include="src\header\overlay\ImGui\imstb_textedit.h" />
+    <ClInclude Include="src\header\overlay\ImGui\imstb_truetype.h" />
     <ClInclude Include="src\header\overlay\overlay.hpp" />
     <ClInclude Include="src\header\util\structs.hpp" />
   </ItemGroup>

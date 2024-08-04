@@ -36,6 +36,24 @@
     <ClCompile Include="src\header\cheat\features\game.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\header\overlay\ImGui\imgui.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\header\overlay\ImGui\imgui_draw.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\header\overlay\ImGui\imgui_impl_dx11.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\header\overlay\ImGui\imgui_impl_win32.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\header\overlay\ImGui\imgui_tables.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\header\overlay\ImGui\imgui_widgets.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\header\offset\offsets.hpp">
@@ -60,6 +78,30 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="src\header\offset\client_dll.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\header\overlay\ImGui\imconfig.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\header\overlay\ImGui\imgui.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\header\overlay\ImGui\imgui_impl_dx11.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\header\overlay\ImGui\imgui_impl_win32.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\header\overlay\ImGui\imgui_internal.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\header\overlay\ImGui\imstb_rectpack.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\header\overlay\ImGui\imstb_textedit.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\header\overlay\ImGui\imstb_truetype.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

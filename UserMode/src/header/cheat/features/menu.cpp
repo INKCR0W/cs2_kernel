@@ -3,7 +3,6 @@
 #include "../cheat.hpp"
 
 namespace cheat {
-	using namespace overlay::colors;
 	void Cheat::menu() {
 		using namespace features;
 
@@ -25,7 +24,9 @@ namespace cheat {
 			return;
 		}
 
-		overlay->draw_text(10, menu_render_y, grey, "[INSERT] 开/关本菜单");
-		overlay->draw_text(10, menu_render_y + 15, feature & ESP ? green : red, "MOUSE4 ESP");
+		auto draw_list = ImGui::GetBackgroundDrawList();
+
+		draw_list->AddText({ 10, menu_render_y }, IM_COL32(124, 124, 124, 255), reinterpret_cast<const char*>(u8"[INSERT] 开/关本菜单"));
+		draw_list->AddText({ 10, menu_render_y + 15 }, feature & ESP ? IM_COL32(0, 255, 0, 255) : IM_COL32(255, 0, 0, 255), "MOUSE4 ESP");
 	}
 }

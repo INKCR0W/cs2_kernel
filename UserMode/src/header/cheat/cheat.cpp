@@ -92,7 +92,7 @@ namespace cheat {
 
 	void Cheat::render() {
 		while (true) {
-			std::this_thread::sleep_for(std::chrono::milliseconds(15)); // 
+			// std::this_thread::sleep_for(std::chrono::microseconds(500));
 
 			if (GetAsyncKeyState(VK_DELETE))
 				break;
@@ -105,7 +105,6 @@ namespace cheat {
 			update_entity();
 
 			overlay->begin_scene();
-			overlay->clear_scene();
 
 			menu();
 			if (feature & features::ESP)
