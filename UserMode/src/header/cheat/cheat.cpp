@@ -11,7 +11,7 @@ namespace cheat {
 		feature(features::MENU), hotkey_pushed(0), 
 		hotkeys({
 		hotkey_data({VK_INSERT, features::MENU}),
-		hotkey_data({VK_XBUTTON1, features::ESP})
+		hotkey_data({VK_F9, features::ESP})
 			})
 	{
 		std::cout

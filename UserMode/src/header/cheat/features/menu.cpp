@@ -26,6 +26,6 @@ namespace cheat {
 		}
 
 		overlay->draw_text(10, menu_render_y, grey, "[INSERT] 开/关本菜单");
-		overlay->draw_text(10, menu_render_y + 15, feature & ESP ? green : red, "MOUSE4 ESP");
+		overlay->draw_text(10, menu_render_y + 15, feature & ESP ? green : red, "F9 ESP");
 	}
 }
