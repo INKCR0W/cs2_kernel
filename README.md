@@ -1,4 +1,4 @@
-# MyDriver
+# CS2 Kernel
 
 A basic driver that can read and write the memory of a target process at the kernel level without using Windows API.
 
